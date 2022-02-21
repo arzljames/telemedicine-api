@@ -6,17 +6,15 @@ const FacilitiesSchema = new mongoose.Schema({
    type: String,
  },
 
- specialization: [{
-    expertise: String,
-    description: String,
- }],
+ specialization: {
+   type: Array
+ },
 
 
  address: {
    street: String,
    city: String,
-   postal: Number,
-   state: String,
+   barangay: String,
  }
 });
 

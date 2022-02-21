@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
       });
     } else if (!user.verified) {
       res.send({
-        err: "Your account is pending",
+        verfied: "Your account is pending",
       });
     } else {
       brcypt.compare(password, user.password, (error, result) => {
@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
             username: user.username,
             userType: user.userType,
           };
-          res.status(200).send(req.session.user);
+          res.send(req.session.user);
         } else {
           res.send({
             err: "The username or password you entered is incorrect. Please check your account and try again.",

@@ -12,6 +12,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 //Importing Routes
 const authRoute = require("./Routes/Authentication");
 const userRoute = require("./Routes/UserRoute");
+const facilityRoute = require("./Routes/FacilityRoute");
 
 //MongoDB URI for database connection
 const uri =
@@ -61,6 +62,7 @@ app.use(
 //Route Middlewares
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
+app.use("/api/facility", facilityRoute);
 
 app.get("/error", (req, res) => {
   res.send("You are not authenticated.")
