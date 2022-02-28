@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const User = require("../Models/User");
 const checkAuth = require("../Middlewares/CheckAuth");
+const nodemailer = require("nodemailer");
+const randomstring = require("randomstring");
 
 const brcypt = require("bcrypt");
 const saltRounds = 10;
@@ -42,7 +44,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-
 router.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -57,6 +58,7 @@ router.post("/login", async (req, res) => {
     } else if (!user.verified) {
       res.send({
         verfied: "Your account is pending",
+        email: user.email
       });
     } else {
       brcypt.compare(password, user.password, (error, result) => {
@@ -66,6 +68,13 @@ router.post("/login", async (req, res) => {
             userId: user._id,
             username: user.username,
             userType: user.userType,
+            verified: user.verfied,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            email: user.email,
+            designation: user.designation,
+            specialization: user.specialization,
+            picture: user.picture
           };
           res.send(req.session.user);
         } else {
@@ -99,6 +108,43 @@ router.get("/logout", (req, res) => {
       res.clearCookie("userId").send("cleared cookie");
     }
   });
+});
+
+router.post("/verify/:id", async (req, res) => {
+  const email = req.body.email;
+  const id = req.params.id;
+
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "ojttelemedicine@gmail.com",
+        pass: "vqmwdonwldpovgou",
+      },
+    });
+
+    let randomString = randomstring.generate({
+      length: 48,
+      charset: 'alphabetic'
+    });
+
+    const mailOptions = {
+      from: "ojttelemedicine@gmail.com",
+      to: email,
+      subject: "Account verification",
+      html: '<p>Click the link below to activate your account: <br /> <a href="http://localhost:3000/account/verification/' + randomString + '/' + id  + '">Verify Account.</a></p>',
+    };
+
+    let result = await transporter.sendMail(mailOptions);
+
+    if(result) {
+      res.send({ok: "Email sent."})
+    } else {
+      res.send({err: "Email not sent"})
+    }
+  } catch (error) {
+    res.send({err: "Something went wrong."})
+  };
 });
 
 module.exports = router;

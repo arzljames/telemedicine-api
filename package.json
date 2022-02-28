@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js",
+    "devStart": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,8 @@
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "mongoose": "^6.1.8",
-    "nodemon": "^2.0.15"
+    "nodemailer": "^6.7.2",
+    "nodemon": "^2.0.15",
+    "randomstring": "^1.2.2"
   }
 }
