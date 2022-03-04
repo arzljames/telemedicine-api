@@ -66,6 +66,7 @@ router.post("/login", async (req, res) => {
           req.session.user = {
             loggedIn: true,
             userId: user._id,
+            activeStatus: user.activeStatus,
             username: user.username,
             userType: user.userType,
             verified: user.verfied,
@@ -146,5 +147,38 @@ router.post("/verify/:id", async (req, res) => {
     res.send({err: "Something went wrong."})
   };
 });
+
+
+
+router.put('/status/:id', async(req, res) => {
+  const id = req.params.id;
+  const activeStatus = req.body.activeStatus;
+
+  try {
+      let result = await User.findByIdAndUpdate({_id: id}, {activeStatus: activeStatus});
+
+        if(result) {
+          console.log(result)
+        }
+
+  } catch (error) {
+    console.log(error)
+  }
+
+})
+
+router.get("/status/:id", async(req, res) => {
+  const id = req.params.id;
+
+  try {
+    let result = await User.findById({_id: id});
+
+    if(result) {
+      res.send({activeStatus: result.activeStatus});
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 module.exports = router;

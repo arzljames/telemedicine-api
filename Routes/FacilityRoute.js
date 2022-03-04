@@ -18,7 +18,7 @@ router.post("/add", checkAuth, async (req, res) => {
 
     if (result) {
       res.send({ ok: "Facility successfully added.", result });
-    }
+    } 
   } catch (error) {
     res.send({ err: error });
   }

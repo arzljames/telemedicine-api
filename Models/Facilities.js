@@ -4,10 +4,12 @@ const User = require("../Models/User");
 const FacilitiesSchema = new mongoose.Schema({
  facility: {
    type: String,
+   required: true,
  },
 
  specialization: {
-   type: Array
+   type: Array,
+   required: true,
  },
 
 

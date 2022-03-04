@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
     required: true,
     type: String,
   },
+
+  activeStatus: {
+    type: String,
+  },
   verified: {
     default: false,
     type: Boolean,
