@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../Models/User");
+const Facilities = require("../Models/Facilities");
 const checkAuth = require("../Middlewares/CheckAuth");
 const nodemailer = require("nodemailer");
 const randomstring = require("randomstring");
@@ -35,7 +36,9 @@ router.post("/register", async (req, res) => {
         if (err) {
           console.log(err);
         } else {
-          console.log(result);
+          Facilities.findOneAndUpdate({facility: designation}, {$push: {user: result._id}}, (error, results) => {
+            console.log(results);
+          })
         }
       });
     }

@@ -18,23 +18,22 @@ router.post("/add", checkAuth, async (req, res) => {
 
     if (result) {
       res.send({ ok: "Facility successfully added.", result });
-    } 
+    }
   } catch (error) {
     res.send({ err: error });
   }
 });
 
-router.get("/", async (req, res) => {
-  try {
-    let result = await Facilities.find({});
-
-    if (result) {
-      res.send(result);
-      return;
-    }
-  } catch (error) {
-    res.send({ err: error });
-  }
+router.get("/", (req, res) => {
+  Facilities.find({})
+    .populate("user")
+    .exec((err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    });
 });
 
 module.exports = router;

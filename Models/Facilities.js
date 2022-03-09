@@ -12,12 +12,16 @@ const FacilitiesSchema = new mongoose.Schema({
    required: true,
  },
 
-
  address: {
    street: String,
    city: String,
    barangay: String,
- }
+ },
+ 
+ user: [{
+   type: mongoose.Schema.Types.ObjectId,
+   ref: User
+ }]
 });
 
 const Facilities = mongoose.model("Facilities", FacilitiesSchema, "facilities");
