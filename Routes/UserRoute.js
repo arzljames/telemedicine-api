@@ -89,20 +89,47 @@ router.put("/add-patient/:id", async (req, res) => {
   }
 });
 
-
-router.get(`/patients/:id`, async(req, res) => {
+router.get(`/patients/:id`, async (req, res) => {
   const id = req.params.id;
 
   try {
-    let result = await User.findById({_id: id});
+    let result = await User.findById({ _id: id });
 
-    if(result) {
-      res.send(result.patient)
+    if (result) {
+      res.send(result.patient);
     }
   } catch (error) {
-    res.send({err: "No data"})
-    
+    res.send({ err: "No data" });
   }
-})
+});
+
+router.delete(`/remove-patients/:id/:patientId`, async (req, res) => {
+  const id = req.params.id;
+  const patientId = req.params.patientId;
+
+  try {
+    let result = await User.findByIdAndUpdate(
+      { _id: id },
+      {
+        $pull: {
+          patient: {
+            _id: patientId,
+          },
+        },
+      },
+      {
+        multi: true,
+      }
+    );
+
+    if (result) {
+      res.send({ ok: "Removed one (1) patient." });
+    } else {
+      res.send({ err: "There's a problem removing this patient." });
+    }
+  } catch (error) {
+    res.send({ err: "There's a problem removing this patient." });
+  }
+});
 
 module.exports = router;

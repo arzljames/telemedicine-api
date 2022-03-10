@@ -4,7 +4,7 @@ const UserSchema = new mongoose.Schema({
   username: {
     required: true,
     type: String,
-    unique: true
+    unique: true,
   },
 
   password: {
@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    unique: true
+    unique: true,
   },
   designation: {
     type: String,
@@ -41,31 +41,75 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   picture: {
-    type: String
+    type: String,
   },
 
-  patient: [{
-    firstname: String,
-    middlename: String,
-    lastname: String,
-    contact: Number,
-    sex: String,
-    birthday: String,
-    civilStatus: String,
-    religion: String,
-    birthplace: String,
-    address: {
-      street: String,
-      barangay: String,
-      city: String,
-    },
-    ethnicity: String,
-    guardian: {
-      name: String,
-      relationship: String
-    }
+  patient: [
+    {
+      firstname: { type: String, required: true },
 
-  }]
+      middlename: {
+        type: String,
+        required: String,
+      },
+      lastname: {
+        type: String,
+        required: true,
+      },
+      contact: {
+        type: Number,
+        required: true,
+      },
+      sex: {
+        type: String,
+        required: true,
+      },
+      birthday: {
+        type: String,
+        required: true,
+      },
+      civilStatus: {
+        type: String,
+        required: true,
+      },
+      religion: {
+        type: String,
+        required: true,
+      },
+      birthplace: {
+        type: String,
+        required: true,
+      },
+      address: {
+        street: {
+          type: String,
+          required: true,
+        },
+        barangay: {
+          type: String,
+          required: true,
+        },
+        city: {
+          type: String,
+          required: true,
+        },
+      },
+      ethnicity: {
+        type: String,
+        required: true,
+      },
+      guardian: {
+        name: {
+          type: String,
+          required: true,
+        },
+        relationship: {
+          type: String,
+          required: true,
+        },
+      },
+    },
+  ],
 });
 
 const User = mongoose.model("User", UserSchema, "user");
