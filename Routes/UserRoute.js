@@ -48,46 +48,7 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-router.put("/add-patient/:id", async (req, res) => {
-  const id = req.params.id;
 
-  const patient = {
-    firstname: req.body.firstname,
-    middlename: req.body.middlename,
-    lastname: req.body.lastname,
-    contact: req.body.contact,
-    sex: req.body.sex,
-    birthday: req.body.birthday,
-    civilStatus: req.body.civilStatus,
-    religion: req.body.religion,
-    birthplace: req.body.birthplace,
-    address: {
-      street: req.body.street,
-      barangay: req.body.barangay,
-      city: req.body.city,
-    },
-    ethnicity: req.body.ethnicity,
-    guardian: {
-      name: req.body.fullname,
-      relationship: req.body.relationship,
-    },
-  };
-
-  try {
-    let result = await User.findByIdAndUpdate(
-      { _id: id },
-      { $push: { patient } }
-    );
-
-    if (result) {
-      res.send({ ok: "Updated" });
-    } else {
-      res.send({ err: "Error" });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
 
 router.get(`/patients/:id`, async (req, res) => {
   const id = req.params.id;
@@ -103,33 +64,6 @@ router.get(`/patients/:id`, async (req, res) => {
   }
 });
 
-router.delete(`/remove-patients/:id/:patientId`, async (req, res) => {
-  const id = req.params.id;
-  const patientId = req.params.patientId;
 
-  try {
-    let result = await User.findByIdAndUpdate(
-      { _id: id },
-      {
-        $pull: {
-          patient: {
-            _id: patientId,
-          },
-        },
-      },
-      {
-        multi: true,
-      }
-    );
-
-    if (result) {
-      res.send({ ok: "Removed one (1) patient." });
-    } else {
-      res.send({ err: "There's a problem removing this patient." });
-    }
-  } catch (error) {
-    res.send({ err: "There's a problem removing this patient." });
-  }
-});
 
 module.exports = router;
