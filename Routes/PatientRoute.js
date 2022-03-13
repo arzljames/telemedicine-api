@@ -42,7 +42,7 @@ router.post("/add/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let result = await Patient.find({}).populate("physician");
+    let result = await Patient.find({}).populate("physician").populate('case.referralPhysician');
 
     if (result) {
       res.send(result);
@@ -68,5 +68,47 @@ router.delete(`/delete/:id`, async (req, res) => {
     res.send({ err: "There's a problem removing this patient." });
   }
 });
+
+
+router.put("/add-case/:id", async(req, res) => {
+
+ 
+  const patientId = req.params.id;
+  const patientCase = {
+    physician: req.body.physician,
+    referralPhysician: req.body.referralPhysician,
+    hospital: req.body.hospital,
+    temperature: req.body.temperature,
+    respiratory: req.body.respiratory,
+    heart:req.body.heart,
+    blood: req.body.blood,
+    oxygen: req.body.oxygen,
+    weight: req.body.weight,
+    height: req.body.height,
+    cc:req.body.cc,
+    hpi: req.body.hpi,
+    pmh: req.body.pmh,
+    ros: req.body.ros,
+    pe: req.body.pe,
+    paraclinical: req.body.paraclinical,
+    wi: req.body.wi,
+    imd: req.body.imd,
+    reason: req.body.reason,
+  }
+
+
+  try {
+    let result = await Patient.findByIdAndUpdate({_id: patientId}, {
+      $push: {case: patientCase}
+    });
+
+    if(result) {
+      res.send({ok: "Medical case record saved."})
+    }
+
+  } catch (error) {
+    console.log({err: "A problem occured. Please check any empty field/s and try again."})
+  }
+})
 
 module.exports = router;
