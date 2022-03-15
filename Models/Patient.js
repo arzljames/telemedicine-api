@@ -73,7 +73,7 @@ const PatientSchema = new mongoose.Schema({
     {
       dateCreated: {
         type: Date,
-        default: Date.now
+        default: Date.now,
       },
       active: {
         type: Boolean,
@@ -87,15 +87,15 @@ const PatientSchema = new mongoose.Schema({
       referralPhysician: {
         type: mongoose.Schema.Types.ObjectId,
         ref: User,
-        required: true
+        required: true,
       },
       hospital: {
         type: String,
-        required: true
+        required: true,
       },
       temperature: {
         type: String,
-        required: true
+        required: true,
       },
       respiratory: String,
       heart: String,
@@ -112,6 +112,19 @@ const PatientSchema = new mongoose.Schema({
       wi: String,
       imd: String,
       reason: String,
+      comments: [
+        {
+          content: {
+            type: String,
+            required: true,
+            trim: true,
+          },
+          user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: User,
+          },
+        },
+      ],
     },
   ],
 });

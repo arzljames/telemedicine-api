@@ -6,8 +6,10 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 3001;
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const expressWs = require('express-ws');
+
+const wsInstance = expressWs(app);
 
 //Importing Routes
 const authRoute = require("./Routes/Authentication");
@@ -68,6 +70,20 @@ app.use("/api/patient", patientRoute);
 
 app.get("/error", (req, res) => {
   res.send("You are not authenticated.")
+})
+
+app.ws('/comment', (ws, req) => {
+
+  ws.on('message', function incoming(message) {
+    console.log(message) ;
+    ws.broadcast(message);
+  });
+
+  ws.broadcast = function broadcast(data) {
+    wsInstance.getWss().clients.forEach(function each(client) {
+    client.send(data);
+    });
+  };
 })
 
 //Server listening to PORT 3001 or PORT in production

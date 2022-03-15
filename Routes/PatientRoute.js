@@ -42,14 +42,16 @@ router.post("/add/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let result = await Patient.find({}).populate("physician").populate('case.referralPhysician');
+    let result = await Patient.find({})
+      .populate("physician")
+      .populate("case.referralPhysician");
 
     if (result) {
       res.send(result);
     }
   } catch (error) {
     res.send({ err: "Error fetching data from the server" });
-    console.log(error.message)
+    console.log(error.message);
   }
 });
 
@@ -69,10 +71,7 @@ router.delete(`/delete/:id`, async (req, res) => {
   }
 });
 
-
-router.put("/add-case/:id", async(req, res) => {
-
- 
+router.put("/add-case/:id", async (req, res) => {
   const patientId = req.params.id;
   const patientCase = {
     physician: req.body.physician,
@@ -80,12 +79,12 @@ router.put("/add-case/:id", async(req, res) => {
     hospital: req.body.hospital,
     temperature: req.body.temperature,
     respiratory: req.body.respiratory,
-    heart:req.body.heart,
+    heart: req.body.heart,
     blood: req.body.blood,
     oxygen: req.body.oxygen,
     weight: req.body.weight,
     height: req.body.height,
-    cc:req.body.cc,
+    cc: req.body.cc,
     hpi: req.body.hpi,
     pmh: req.body.pmh,
     ros: req.body.ros,
@@ -94,21 +93,56 @@ router.put("/add-case/:id", async(req, res) => {
     wi: req.body.wi,
     imd: req.body.imd,
     reason: req.body.reason,
+  };
+
+  try {
+    let result = await Patient.findByIdAndUpdate(
+      { _id: patientId },
+      {
+        $push: { case: patientCase },
+      }
+    );
+
+    if (result) {
+      res.send({ ok: "Medical case record saved." });
+    }
+  } catch (error) {
+    console.log({
+      err: "A problem occured. Please check any empty field/s and try again.",
+    });
   }
+});
+
+router.put("/response/:id", async (req, res) => {
+  const id = req.params.id;
+
+  const comments = {
+    content: req.body.comment,
+    user: req.body.id,
+  };
+
 
 
   try {
-    let result = await Patient.findByIdAndUpdate({_id: patientId}, {
-      $push: {case: patientCase}
-    });
+    let result = await Patient.findOneAndUpdate(
+      { _id: req.body.patientId },
+      {
+        $addToSet: {
+          "case.$[el].comments": comments,
+        },
+      },
+      {
+        arrayFilters: [{ "el._id": id }],
+        new: true,
+      }
+    );
 
-    if(result) {
-      res.send({ok: "Medical case record saved."})
+    if (result) {
+      res.send(result);
     }
-
   } catch (error) {
-    console.log({err: "A problem occured. Please check any empty field/s and try again."})
+    console.log(error.message);
   }
-})
+});
 
 module.exports = router;
