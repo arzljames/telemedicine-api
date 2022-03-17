@@ -7,9 +7,12 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const cookieParser = require("cookie-parser");
 const MongoDBStore = require("connect-mongodb-session")(session);
-const expressWs = require('express-ws');
 
-const wsInstance = expressWs(app);
+const {Server} = require('socket.io')
+const http = require('http');
+const server = http.createServer(app);
+
+
 
 //Importing Routes
 const authRoute = require("./Routes/Authentication");
@@ -68,25 +71,45 @@ app.use("/api/user", userRoute);
 app.use("/api/facility", facilityRoute);
 app.use("/api/patient", patientRoute);
 
+
+// !Warning Very important route do not delete
 app.get("/error", (req, res) => {
   res.send("You are not authenticated.")
 })
 
-app.ws('/comment', (ws, req) => {
+const io = new Server(server, {
+ cors: {
+  origin: "http://localhost:3000",
+  methods: ["PUT", "DELETE", "GET", "POST", "*"],
+ }
+});
 
-  ws.on('message', function incoming(message) {
-    console.log(message) ;
-    ws.broadcast(message);
-  });
 
-  ws.broadcast = function broadcast(data) {
-    wsInstance.getWss().clients.forEach(function each(client) {
-    client.send(data);
-    });
-  };
+
+//Socket IO connection
+io.on("connection", (socket) => {
+  console.log(`connected to socket.io with ID: ${socket.id}`)
+
+
+  socket.on('join_room', (data) => {
+    socket.join(data)
+    console.log(data)
+  })
+
+
+  socket.on("send_response", (data) => {
+    socket.to(data.room).emit("receive_response", data)
+    console.log(data);
+  })
+
+  socket.on("disconnect", () => {
+    console.log("disconnected", socket.id)
+  })
 })
 
 //Server listening to PORT 3001 or PORT in production
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Running in PORT ${PORT}`);
 });
+
+

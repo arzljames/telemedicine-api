@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Patient = require("../Models/Patient");
+const Case = require("../Models/Case");
 
 router.post("/add/:id", async (req, res) => {
   const id = req.params.id;
@@ -42,9 +43,7 @@ router.post("/add/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let result = await Patient.find({})
-      .populate("physician")
-      .populate("case.referralPhysician");
+    let result = await Patient.find({}).populate("physician")
 
     if (result) {
       res.send(result);
@@ -73,43 +72,52 @@ router.delete(`/delete/:id`, async (req, res) => {
 
 router.put("/add-case/:id", async (req, res) => {
   const patientId = req.params.id;
-  const patientCase = {
-    physician: req.body.physician,
-    referralPhysician: req.body.referralPhysician,
-    hospital: req.body.hospital,
-    temperature: req.body.temperature,
-    respiratory: req.body.respiratory,
-    heart: req.body.heart,
-    blood: req.body.blood,
-    oxygen: req.body.oxygen,
-    weight: req.body.weight,
-    height: req.body.height,
-    cc: req.body.cc,
-    hpi: req.body.hpi,
-    pmh: req.body.pmh,
-    ros: req.body.ros,
-    pe: req.body.pe,
-    paraclinical: req.body.paraclinical,
-    wi: req.body.wi,
-    imd: req.body.imd,
-    reason: req.body.reason,
-  };
 
   try {
-    let result = await Patient.findByIdAndUpdate(
-      { _id: patientId },
-      {
-        $push: { case: patientCase },
-      }
-    );
+    let result = await Case.create({
+      patient: patientId,
+      physician: req.body.physician,
+      referralPhysician: req.body.referralPhysician,
+      hospital: req.body.hospital,
+      temperature: req.body.temperature,
+      respiratory: req.body.respiratory,
+      heart: req.body.heart,
+      blood: req.body.blood,
+      oxygen: req.body.oxygen,
+      weight: req.body.weight,
+      height: req.body.height,
+      cc: req.body.cc,
+      hpi: req.body.hpi,
+      pmh: req.body.pmh,
+      ros: req.body.ros,
+      pe: req.body.pe,
+      paraclinical: req.body.paraclinical,
+      wi: req.body.wi,
+      imd: req.body.imd,
+      reason: req.body.reason,
+    });
 
     if (result) {
       res.send({ ok: "Medical case record saved." });
     }
   } catch (error) {
-    console.log({
+    res.send({
       err: "A problem occured. Please check any empty field/s and try again.",
     });
+  }
+});
+
+router.get("/case", async (req, res) => {
+  try {
+    let result = await Case.find({})
+      .populate("physician")
+      .populate("referralPhysician")
+      .populate("patient");
+    if (result) {
+      res.send(result);
+    }
+  } catch (error) {
+    res.send({ err: "401 error request." });
   }
 });
 
@@ -120,8 +128,6 @@ router.put("/response/:id", async (req, res) => {
     content: req.body.comment,
     user: req.body.id,
   };
-
-
 
   try {
     let result = await Patient.findOneAndUpdate(
@@ -142,6 +148,21 @@ router.put("/response/:id", async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
+  }
+});
+
+router.put("/banner/:id", async (req, res) => {
+  try {
+    let result = await Case.findByIdAndUpdate(
+      {_id: req.params.id},
+     {banner: false}
+    );
+
+    if (result) {
+      res.send({ ok: "Banner deactivated" });
+    }
+  } catch (error) {
+    res.send({ err: "401 Error" });
   }
 });
 
