@@ -8,11 +8,10 @@ const PORT = process.env.PORT || 3001;
 const cookieParser = require("cookie-parser");
 const MongoDBStore = require("connect-mongodb-session")(session);
 
-const {Server} = require('socket.io')
-const http = require('http');
+const { Server } = require("socket.io");
+const http = require("http");
 const server = http.createServer(app);
-
-
+const Message = require("./Models/Message");
 
 //Importing Routes
 const authRoute = require("./Routes/Authentication");
@@ -71,45 +70,52 @@ app.use("/api/user", userRoute);
 app.use("/api/facility", facilityRoute);
 app.use("/api/patient", patientRoute);
 
-
 // !Warning Very important route do not delete
 app.get("/error", (req, res) => {
-  res.send("You are not authenticated.")
-})
-
-const io = new Server(server, {
- cors: {
-  origin: "http://localhost:3000",
-  methods: ["PUT", "DELETE", "GET", "POST", "*"],
- }
+  res.send("You are not authenticated.");
 });
 
-
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["PUT", "DELETE", "GET", "POST", "*"],
+  },
+});
 
 //Socket IO connection
 io.on("connection", (socket) => {
-  console.log(`connected to socket.io with ID: ${socket.id}`)
+  console.log(`connected to socket.io with ID: ${socket.id}`);
 
-
-  socket.on('join_room', (data) => {
-    socket.join(data)
-    console.log(data)
-  })
-
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(data);
+  });
 
   socket.on("send_response", (data) => {
-    socket.to(data.room).emit("receive_response", data)
-    console.log(data);
-  })
+    Message.create({
+      room: data.room,
+      content: data.content,
+      user: data.user,
+    }).then(() => {
+      socket.to(data.room).emit("receive_response", data);
+    });
+  });
+
+  socket.on("receive_response", (data) => {
+    Message.find({ room: data.room })
+      .populate("user")
+      .exec()
+      .then((result) => {
+        socket.to(data.room).emit("send_response", result);
+      });
+  });
 
   socket.on("disconnect", () => {
-    console.log("disconnected", socket.id)
-  })
-})
+    console.log("disconnected", socket.id);
+  });
+});
 
 //Server listening to PORT 3001 or PORT in production
 server.listen(PORT, () => {
   console.log(`Running in PORT ${PORT}`);
 });
-
-
