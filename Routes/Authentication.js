@@ -34,7 +34,7 @@ router.post("/register", async (req, res) => {
 
       User.create(user, (err, result) => {
         if (err) {
-          console.log(err);
+          console.log(err.message);
         } else {
           Facilities.findOneAndUpdate({facility: designation}, {$push: {user: result._id}}, (error, results) => {
             console.log(results);
@@ -43,7 +43,7 @@ router.post("/register", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 });
 
@@ -56,7 +56,7 @@ router.post("/login", async (req, res) => {
   try {
     if (!user) {
       res.send({
-        err: "The username or password you entered is not associated with any ZCMC Telemedicine's account.",
+        err: "The username or password you entered doesn't belong to any ZCMC Telemedicine's account.",
       });
     } else if (!user.verified) {
       res.send({
@@ -83,7 +83,7 @@ router.post("/login", async (req, res) => {
           res.send(req.session.user);
         } else {
           res.send({
-            err: "The username or password you entered is incorrect. Please check your account and try again.",
+            err: "The username or password you entered is incorrect.",
           });
         }
       });

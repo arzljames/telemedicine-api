@@ -43,7 +43,7 @@ router.post("/add/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let result = await Patient.find({}).populate("physician")
+    let result = await Patient.find({}).populate("physician");
 
     if (result) {
       res.send(result);
@@ -61,6 +61,11 @@ router.delete(`/delete/:id`, async (req, res) => {
     let result = await Patient.findByIdAndDelete({ _id: id });
 
     if (result) {
+      Case.deleteMany({ patient: id }).then((err, success) => {
+        if (success) {
+          console.log(success);
+        }
+      });
       res.send({ ok: "Removed one (1) patient." });
     } else {
       res.send({ err: "There's a problem removing this patient." });
@@ -154,8 +159,8 @@ router.put("/response/:id", async (req, res) => {
 router.put("/banner/:id", async (req, res) => {
   try {
     let result = await Case.findByIdAndUpdate(
-      {_id: req.params.id},
-     {banner: false}
+      { _id: req.params.id },
+      { banner: false }
     );
 
     if (result) {
@@ -165,5 +170,11 @@ router.put("/banner/:id", async (req, res) => {
     res.send({ err: "401 Error" });
   }
 });
+
+// router.get("/delete-case/:id", (req, res) => {
+//   Case.find({ patient: req.params.id }).then((response) => {
+//     res.send(response);
+//   });
+// });
 
 module.exports = router;

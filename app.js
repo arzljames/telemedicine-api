@@ -18,6 +18,7 @@ const authRoute = require("./Routes/Authentication");
 const userRoute = require("./Routes/UserRoute");
 const facilityRoute = require("./Routes/FacilityRoute");
 const patientRoute = require("./Routes/PatientRoute");
+const messageRoute = require("./Routes/MessageRoute");
 
 //MongoDB URI for database connection
 const uri =
@@ -69,6 +70,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/facility", facilityRoute);
 app.use("/api/patient", patientRoute);
+app.use("/api/message/", messageRoute);
 
 // !Warning Very important route do not delete
 app.get("/error", (req, res) => {
@@ -88,26 +90,23 @@ io.on("connection", (socket) => {
 
   socket.on("join_room", (data) => {
     socket.join(data);
-    console.log(data);
+    console.log(`Room ID: ${data}`);
   });
 
-  socket.on("send_response", (data) => {
+  socket.on("send_response", async (data) => {
     Message.create({
+      user: data.user,
       room: data.room,
       content: data.content,
-      user: data.user,
     }).then(() => {
-      socket.to(data.room).emit("receive_response", data);
+      Message.findOne()
+        .sort({ createdAt: -1 })
+        .populate("user")
+        .then((result) => {
+          io.emit("receive_response", result);
+          console.log(result);
+        });
     });
-  });
-
-  socket.on("receive_response", (data) => {
-    Message.find({ room: data.room })
-      .populate("user")
-      .exec()
-      .then((result) => {
-        socket.to(data.room).emit("send_response", result);
-      });
   });
 
   socket.on("disconnect", () => {
