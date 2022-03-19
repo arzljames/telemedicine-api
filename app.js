@@ -12,6 +12,7 @@ const { Server } = require("socket.io");
 const http = require("http");
 const server = http.createServer(app);
 const Message = require("./Models/Message");
+const Notification = require("./Models/Notification");
 
 //Importing Routes
 const authRoute = require("./Routes/Authentication");
@@ -19,6 +20,7 @@ const userRoute = require("./Routes/UserRoute");
 const facilityRoute = require("./Routes/FacilityRoute");
 const patientRoute = require("./Routes/PatientRoute");
 const messageRoute = require("./Routes/MessageRoute");
+const notificationRoute = require("./Routes/NotificationRoute");
 
 //MongoDB URI for database connection
 const uri =
@@ -71,6 +73,7 @@ app.use("/api/user", userRoute);
 app.use("/api/facility", facilityRoute);
 app.use("/api/patient", patientRoute);
 app.use("/api/message/", messageRoute);
+app.use("/api/notification/", notificationRoute);
 
 // !Warning Very important route do not delete
 app.get("/error", (req, res) => {
@@ -99,14 +102,25 @@ io.on("connection", (socket) => {
       room: data.room,
       content: data.content,
     }).then(() => {
-      Message.findOne()
-        .sort({ createdAt: -1 })
+      Message.find({})
         .populate("user")
         .then((result) => {
           io.emit("receive_response", result);
           console.log(result);
         });
     });
+  });
+
+  socket.on("notif", () => {
+  
+    Notification.find({
+     
+    })
+      .populate("user")
+      .populate("from")
+      .then((result) => {
+        io.emit("get_notif", result);
+      });
   });
 
   socket.on("disconnect", () => {

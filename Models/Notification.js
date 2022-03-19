@@ -2,7 +2,16 @@ const mongoose = require("mongoose");
 const User = require("../Models/User");
 
 const NotificationSchema = new mongoose.Schema({
+  active: {
+    type: Boolean,
+    default: true,
+  },
   user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User,
+  },
+
+  from: {
     type: mongoose.Schema.Types.ObjectId,
     ref: User,
   },

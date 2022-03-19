@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Patient = require("../Models/Patient");
 const Case = require("../Models/Case");
+const Notification = require("../Models/Notification");
 
 router.post("/add/:id", async (req, res) => {
   const id = req.params.id;
@@ -103,6 +104,16 @@ router.put("/add-case/:id", async (req, res) => {
     });
 
     if (result) {
+      Notification.create({
+        user: req.body.referralPhysician,
+        from: req.body.physician,
+        title: "added you to a case as an Attending Physician.",
+        body: `View for more details`,
+        link: `/consultation/patients/case/case-data/${result._id}`,
+      }).then((result) => {
+        console.log(result);
+      });
+      console.log(result);
       res.send({ ok: "Medical case record saved." });
     }
   } catch (error) {
