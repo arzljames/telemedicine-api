@@ -3,7 +3,7 @@ const Notification = require("../Models/Notification");
 
 router.get("/", async (req, res) => {
   try {
-    let result = await Notification.find({}).populate("user").populate("from");
+    let result = await Notification.find({}).populate("user").populate("from").populate("case");
     if (result) {
       res.send(result);
     }

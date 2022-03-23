@@ -48,11 +48,10 @@ const CaseSchema = new mongoose.Schema({
   pmh: String,
   ros: String,
   pe: String,
-  paraclinical: String,
+  paraclinical: { name: String, file: String },
   wi: String,
   imd: String,
   reason: String,
-
 });
 
 const Case = mongoose.model("Case", CaseSchema, "case");

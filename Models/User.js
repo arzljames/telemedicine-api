@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
     type: String,
     unique: true,
+    
   },
 
   password: {
@@ -25,20 +26,27 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
   },
   firstname: {
+    required: true,
     type: String,
+    trim: true
   },
   lastname: {
+    required: true,
     type: String,
+    trim: true
   },
   email: {
     type: String,
     unique: true,
+    required: true,
   },
   designation: {
     type: String,
+    required: true,
   },
   specialization: {
     type: String,
+    required: true,
   },
   picture: {
     type: String,

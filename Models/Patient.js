@@ -2,15 +2,20 @@ const mongoose = require("mongoose");
 const User = require("../Models/User");
 
 const PatientSchema = new mongoose.Schema({
-  firstname: { type: String, required: true },
+  firstname: { type: String, required: true, trim: true },
 
   middlename: {
     type: String,
     required: String,
+    trim: true,
   },
   lastname: {
     type: String,
     required: true,
+    trim: true,
+  },
+  fullname: {
+    type: String,
   },
   contact: {
     type: Number,
@@ -68,6 +73,8 @@ const PatientSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: User,
   },
+
+  notes: String,
 });
 
 const Patient = mongoose.model("Patient", PatientSchema, "patient");

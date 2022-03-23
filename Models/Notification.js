@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../Models/User");
+const Patient = require("../Models/Patient");
+const Case = require("../Models/Case");
 
 const NotificationSchema = new mongoose.Schema({
   active: {
@@ -14,6 +16,15 @@ const NotificationSchema = new mongoose.Schema({
   from: {
     type: mongoose.Schema.Types.ObjectId,
     ref: User,
+  },
+  patient: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Patient,
+  },
+
+  case: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Case,
   },
 
   title: String,

@@ -5,11 +5,20 @@ const Notification = require("../Models/Notification");
 
 router.post("/add/:id", async (req, res) => {
   const id = req.params.id;
+  const fullname =
+    req.body.lastname +
+    "," +
+    " " +
+    req.body.firstname +
+    " " +
+    req.body.middlename[0] +
+    ".";
 
   const patient = {
     firstname: req.body.firstname,
     middlename: req.body.middlename,
     lastname: req.body.lastname,
+    fullname: fullname,
     contact: req.body.contact,
     sex: req.body.sex,
     birthday: req.body.birthday,
@@ -42,6 +51,56 @@ router.post("/add/:id", async (req, res) => {
   }
 });
 
+router.put("/update/:id/:patientId", async (req, res) => {
+  const id = req.params.id;
+  const patientId = req.params.patientId;
+  const fullname =
+    req.body.lastname +
+    "," +
+    " " +
+    req.body.firstname +
+    " " +
+    req.body.middlename[0] +
+    ".";
+
+  try {
+    let result = await Patient.findByIdAndUpdate(
+      { _id: patientId },
+      {
+        firstname: req.body.firstname,
+        middlename: req.body.middlename,
+        lastname: req.body.lastname,
+        fullname: fullname,
+        contact: req.body.contact,
+        sex: req.body.sex,
+        birthday: req.body.birthday,
+        civilStatus: req.body.civilStatus,
+        religion: req.body.religion,
+        birthplace: req.body.birthplace,
+        address: {
+          street: req.body.street,
+          barangay: req.body.barangay,
+          city: req.body.city,
+        },
+        ethnicity: req.body.ethnicity,
+        guardian: {
+          name: req.body.fullname,
+          relationship: req.body.relationship,
+        },
+        physician: id,
+      }
+    );
+
+    if (result) {
+      res.send({ ok: "Updated" });
+    } else {
+      res.send({ err: "Error" });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.get("/", async (req, res) => {
   try {
     let result = await Patient.find({}).populate("physician");
@@ -55,18 +114,25 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.delete(`/delete/:id`, async (req, res) => {
+router.delete(`/delete/:id/`, async (req, res) => {
   const id = req.params.id;
 
   try {
     let result = await Patient.findByIdAndDelete({ _id: id });
 
     if (result) {
+      Notification.deleteMany({ patient: id }).then((err, success) => {
+        if (success) {
+          console.log(success);
+        }
+      });
+
       Case.deleteMany({ patient: id }).then((err, success) => {
         if (success) {
           console.log(success);
         }
       });
+
       res.send({ ok: "Removed one (1) patient." });
     } else {
       res.send({ err: "There's a problem removing this patient." });
@@ -97,7 +163,10 @@ router.put("/add-case/:id", async (req, res) => {
       pmh: req.body.pmh,
       ros: req.body.ros,
       pe: req.body.pe,
-      paraclinical: req.body.paraclinical,
+      paraclinical: {
+        name: req.body.paraclinicalName,
+        file: req.body.paraclinicalFile,
+      },
       wi: req.body.wi,
       imd: req.body.imd,
       reason: req.body.reason,
@@ -105,16 +174,18 @@ router.put("/add-case/:id", async (req, res) => {
 
     if (result) {
       Notification.create({
+        patient: patientId,
         user: req.body.referralPhysician,
         from: req.body.physician,
         title: "added you to a case as an Attending Physician.",
         body: `View for more details`,
         link: `/consultation/patients/case/case-data/${result._id}`,
+        case: result._id,
       }).then((result) => {
         console.log(result);
       });
       console.log(result);
-      res.send({ ok: "Medical case record saved." });
+      res.send({ ok: result });
     }
   } catch (error) {
     res.send({
@@ -182,10 +253,54 @@ router.put("/banner/:id", async (req, res) => {
   }
 });
 
-// router.get("/delete-case/:id", (req, res) => {
-//   Case.find({ patient: req.params.id }).then((response) => {
-//     res.send(response);
-//   });
-// });
+router.delete("/delete-case/:id", async (req, res) => {
+  try {
+    let result = await Case.findByIdAndDelete({ _id: req.params.id });
+    if (result) {
+      Notification.deleteMany({ case: req.params.id }).then((err, success) => {
+        if (success) {
+          console.log(success);
+        }
+      });
+      res.send({ ok: "Successfullly deleted one (1) case." });
+    }
+  } catch (error) {
+    res.send({ err: error });
+  }
+});
+
+router.put("/case/deactivate/:id", async (req, res) => {
+  try {
+    let result = await Case.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        active: false,
+      }
+    );
+
+    if (result) {
+      res.send({ ok: "Updated" });
+    }
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+router.put("/case/activate/:id", async (req, res) => {
+  try {
+    let result = await Case.findByIdAndUpdate(
+      { _id: req.params.id },
+      {
+        active: true,
+      }
+    );
+
+    if (result) {
+      res.send({ ok: "Updated" });
+    }
+  } catch (error) {
+    res.send(error);
+  }
+});
 
 module.exports = router;
