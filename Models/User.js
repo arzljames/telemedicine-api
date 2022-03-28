@@ -20,6 +20,7 @@ const UserSchema = new mongoose.Schema({
 
   activeStatus: {
     type: String,
+    default: "Offline"
   },
   verified: {
     default: false,
@@ -35,6 +36,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
+
+  fullname: String,
+
+  fullname: String,
+  
   email: {
     type: String,
     unique: true,

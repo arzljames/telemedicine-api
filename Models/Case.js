@@ -31,7 +31,6 @@ const CaseSchema = new mongoose.Schema({
   },
   hospital: {
     type: String,
-    required: true,
   },
   temperature: {
     type: String,

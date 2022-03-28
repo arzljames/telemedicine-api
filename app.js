@@ -13,6 +13,7 @@ const http = require("http");
 const server = http.createServer(app);
 const Message = require("./Models/Message");
 const Notification = require("./Models/Notification");
+const User = require("./Models/User");
 
 //Importing Routes
 const authRoute = require("./Routes/Authentication");
@@ -21,6 +22,7 @@ const facilityRoute = require("./Routes/FacilityRoute");
 const patientRoute = require("./Routes/PatientRoute");
 const messageRoute = require("./Routes/MessageRoute");
 const notificationRoute = require("./Routes/NotificationRoute");
+const chatRoute = require("./Routes/ChatRoute");
 
 //MongoDB URI for database connection
 const uri =
@@ -74,6 +76,7 @@ app.use("/api/facility", facilityRoute);
 app.use("/api/patient", patientRoute);
 app.use("/api/message/", messageRoute);
 app.use("/api/notification/", notificationRoute);
+app.use("/api/chat/", chatRoute);
 
 // !Warning Very important route do not delete
 app.get("/error", (req, res) => {
@@ -87,13 +90,37 @@ const io = new Server(server, {
   },
 });
 
+const users = {};
+
 //Socket IO connection
 io.on("connection", (socket) => {
-  console.log(`connected to socket.io with ID: ${socket.id}`);
-
   socket.on("join_room", (data) => {
     socket.join(data);
     console.log(`Room ID: ${data}`);
+  });
+
+  socket.on("active_status", async (data) => {
+    users[socket.id] = data;
+    try {
+      let result = await User.findByIdAndUpdate(
+        { _id: users[socket.id] },
+        {
+          activeStatus: "Online",
+        }
+      );
+
+      if (result) {
+        User.find({}).then((result) => {
+          io.emit("get_chat", result);
+        });
+      }
+    } catch (error) {}
+  });
+
+  socket.on("chat", () => {
+    User.find({}).then((result) => {
+      io.emit("get_chat", result);
+    });
   });
 
   socket.on("send_response", async (data) => {
@@ -112,10 +139,7 @@ io.on("connection", (socket) => {
   });
 
   socket.on("notif", () => {
-  
-    Notification.find({
-     
-    })
+    Notification.find({})
       .populate("user")
       .populate("from")
       .then((result) => {
@@ -123,8 +147,24 @@ io.on("connection", (socket) => {
       });
   });
 
-  socket.on("disconnect", () => {
-    console.log("disconnected", socket.id);
+  socket.on("disconnect", async () => {
+    try {
+      if (users[socket.id]) {
+        let result = await User.findByIdAndUpdate(
+          { _id: users[socket.id] },
+          {
+            activeStatus: "Offline",
+          }
+        );
+
+        if (result) {
+          delete users[socket.id];
+          User.find({}).then((result) => {
+            io.emit("get_chat", result);
+          });
+        }
+      }
+    } catch (error) {}
   });
 });
 

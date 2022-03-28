@@ -24,6 +24,7 @@ router.post("/register", async (req, res) => {
       const user = {
         firstname,
         lastname,
+        fullname: firstname + " " + lastname,
         specialization,
         designation,
         email,
@@ -34,11 +35,19 @@ router.post("/register", async (req, res) => {
 
       User.create(user, (err, result) => {
         if (err) {
-          console.log(err.message);
+          err.message.includes("email")
+            ? res.send({ emailErr: "Email is already in use" })
+            : res.send({ usernameErr: "Username is already in use" });
         } else {
-          Facilities.findOneAndUpdate({facility: designation}, {$push: {user: result._id}}, (error, results) => {
-            console.log(results);
-          })
+          Facilities.findOneAndUpdate(
+            { facility: designation },
+            { $push: { user: result._id } },
+            (error, results) => {
+              console.log(results);
+            }
+          );
+
+          res.send({ ok: "Registered" });
         }
       });
     }
@@ -56,12 +65,12 @@ router.post("/login", async (req, res) => {
   try {
     if (!user) {
       res.send({
-        err: "The username or password you entered doesn't belong to any ZCMC Telemedicine's account.",
+        err: "The username you entered isn't associated with any Telemedicine account.",
       });
     } else if (!user.verified) {
       res.send({
         verfied: "Your account is pending",
-        email: user.email
+        email: user.email,
       });
     } else {
       brcypt.compare(password, user.password, (error, result) => {
@@ -78,12 +87,12 @@ router.post("/login", async (req, res) => {
             email: user.email,
             designation: user.designation,
             specialization: user.specialization,
-            picture: user.picture
+            picture: user.picture,
           };
           res.send(req.session.user);
         } else {
           res.send({
-            err: "The username or password you entered is incorrect.",
+            err: "Incorrect username or password",
           });
         }
       });
@@ -129,59 +138,63 @@ router.post("/verify/:id", async (req, res) => {
 
     let randomString = randomstring.generate({
       length: 48,
-      charset: 'alphabetic'
+      charset: "alphabetic",
     });
 
     const mailOptions = {
       from: "ojttelemedicine@gmail.com",
       to: email,
       subject: "Account verification",
-      html: '<p>Click the link below to activate your account: <br /> <a href="http://localhost:3000/account/verification/' + randomString + '/' + id  + '">Verify Account.</a></p>',
+      html:
+        '<p>Click the link below to activate your account: <br /> <a href="http://localhost:3000/account/verification/' +
+        randomString +
+        "/" +
+        id +
+        '">Verify Account.</a></p>',
     };
 
     let result = await transporter.sendMail(mailOptions);
 
-    if(result) {
-      res.send({ok: "Email sent."})
+    if (result) {
+      res.send({ ok: "Email sent." });
     } else {
-      res.send({err: "Email not sent"})
+      res.send({ err: "Email not sent" });
     }
   } catch (error) {
-    res.send({err: "Something went wrong."})
-  };
+    res.send({ err: "Something went wrong." });
+  }
 });
 
-
-
-router.put('/status/:id', async(req, res) => {
+router.put("/status/:id", async (req, res) => {
   const id = req.params.id;
   const activeStatus = req.body.activeStatus;
 
   try {
-      let result = await User.findByIdAndUpdate({_id: id}, {activeStatus: activeStatus});
+    let result = await User.findByIdAndUpdate(
+      { _id: id },
+      { activeStatus: activeStatus }
+    );
 
-        if(result) {
-          console.log(result)
-        }
-
+    if (result) {
+      console.log(result);
+    }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
+});
 
-})
-
-router.get("/status/:id", async(req, res) => {
+router.get("/status/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    let result = await User.findById({_id: id});
+    let result = await User.findById({ _id: id });
 
-    if(result) {
-      res.send({activeStatus: result.activeStatus});
+    if (result) {
+      res.send({ activeStatus: result.activeStatus });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-})
+});
 
 module.exports = router;
