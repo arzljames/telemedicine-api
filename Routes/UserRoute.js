@@ -48,8 +48,6 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
-
-
 router.get(`/patients/:id`, async (req, res) => {
   const id = req.params.id;
 
@@ -64,6 +62,21 @@ router.get(`/patients/:id`, async (req, res) => {
   }
 });
 
+router.put(`/profile/:id`, async (req, res) => {
+  const id = req.params.id;
 
+  try {
+    let result = await User.findByIdAndUpdate(
+      { _id: id },
+      { picture: req.body.picture }
+    );
+
+    if (result) {
+      console.log(result);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 module.exports = router;

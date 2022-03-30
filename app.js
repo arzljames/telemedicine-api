@@ -14,6 +14,7 @@ const server = http.createServer(app);
 const Message = require("./Models/Message");
 const Notification = require("./Models/Notification");
 const User = require("./Models/User");
+const Chat = require("./Models/Chat");
 
 //Importing Routes
 const authRoute = require("./Routes/Authentication");
@@ -133,6 +134,23 @@ io.on("connection", (socket) => {
         .populate("user")
         .then((result) => {
           io.emit("receive_response", result);
+          console.log(result);
+        });
+    });
+  });
+
+  socket.on("send_chat_messages", async (data) => {
+    Chat.create({
+      user: [data.from, data.to],
+      content: data.content,
+      sender: data.from,
+    }).then(() => {
+      Chat.find({
+        user: { $in: [data.from && data.to] },
+      })
+        .populate("user").populate("sender")
+        .then((result) => {
+          io.emit("chat_messages", result);
           console.log(result);
         });
     });

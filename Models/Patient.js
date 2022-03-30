@@ -74,7 +74,10 @@ const PatientSchema = new mongoose.Schema({
     ref: User,
   },
 
-  notes: String,
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  }
 });
 
 const Patient = mongoose.model("Patient", PatientSchema, "patient");

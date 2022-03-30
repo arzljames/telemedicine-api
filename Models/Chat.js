@@ -3,9 +3,6 @@ const User = require("../Models/User");
 
 const ChatSchema = new mongoose.Schema(
   {
-    room: {
-      type: String,
-    },
     content: String,
     createdAt: {
       type: Date,
@@ -18,6 +15,11 @@ const ChatSchema = new mongoose.Schema(
         ref: User,
       },
     ],
+
+    sender: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
+    },
 
     attachment: [
       {
