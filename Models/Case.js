@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 const User = require("../Models/User");
 const Patient = require("../Models/Patient");
+const Facilities = require("../Models/Facilities");
 
 const CaseSchema = new mongoose.Schema({
+  caseid: {
+    type: String,
+  },
   patient: {
     type: mongoose.Schema.Types.ObjectId,
     ref: Patient,
@@ -24,12 +28,13 @@ const CaseSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: User,
   },
-  referralPhysician: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: User,
-    required: true,
-  },
+
   hospital: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Facilities,
+  },
+
+  specialization: {
     type: String,
   },
   temperature: {

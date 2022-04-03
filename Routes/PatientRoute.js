@@ -198,13 +198,13 @@ router.get("/case", async (req, res) => {
   try {
     let result = await Case.find({})
       .populate("physician")
-      .populate("referralPhysician")
       .populate("patient");
     if (result) {
       res.send(result);
     }
   } catch (error) {
     res.send({ err: "401 error request." });
+    console.log(error)
   }
 });
 
@@ -302,5 +302,19 @@ router.put("/case/activate/:id", async (req, res) => {
     res.send(error);
   }
 });
+
+router.put("/import-patients", async(req, res) => {
+  try {
+    let result = await Patient.insertMany(req.body.CSV);
+
+    if(result) {
+      res.send({
+        ok: `Import ${req.body.CSV.length} patients.` 
+      })
+    }
+  } catch (error) {
+    res.send({err: error})
+  }
+})
 
 module.exports = router;

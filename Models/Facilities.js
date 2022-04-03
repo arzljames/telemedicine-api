@@ -7,10 +7,9 @@ const FacilitiesSchema = new mongoose.Schema({
    required: true,
  },
 
- specialization: {
-   type: Array,
-   required: true,
- },
+ specialization: [{
+   name: String,
+ }],
 
  address: {
    street: String,

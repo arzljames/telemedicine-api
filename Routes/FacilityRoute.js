@@ -1,11 +1,12 @@
 const router = require("express").Router();
 const Facilities = require("../Models/Facilities");
 const checkAuth = require("../Middlewares/CheckAuth");
+const mongoose = require('mongoose');
 
 router.post("/add", checkAuth, async (req, res) => {
   const facilities = {
     facility: req.body.name,
-    specialization: req.body.specializations,
+    specialization:req.body.specializations,
     address: {
       street: req.body.street,
       city: req.body.city,
