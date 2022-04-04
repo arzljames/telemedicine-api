@@ -83,9 +83,9 @@ app.use("/api/message/", messageRoute);
 app.use("/api/notification/", notificationRoute);
 app.use("/api/chat/", chatRoute);
 
-app.get('/*', (req, res) => {
-   res.sendFile(path.join(__dirname, '/../', 'build', 'index.html'));
-});
+// app.get('/*', (req, res) => {
+//    res.sendFile(path.join(__dirname, '/../', 'build', 'index.html'));
+// });
 
 app.get("/", (req, res) => {
   res.send("working")
