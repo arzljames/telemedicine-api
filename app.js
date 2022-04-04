@@ -79,6 +79,10 @@ app.use("/api/message/", messageRoute);
 app.use("/api/notification/", notificationRoute);
 app.use("/api/chat/", chatRoute);
 
+app.get("/", (req, res) => {
+  res.send("working")
+})
+
 // !Warning Very important route do not delete
 app.get("/error", (req, res) => {
   res.send("You are not authenticated.");
