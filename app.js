@@ -29,19 +29,10 @@ const chatRoute = require("./Routes/ChatRoute");
 const uri =
   "mongodb+srv://admin:admin@ojt-cluster.zdqa4.mongodb.net/TelemedicineDB?retryWrites=true&w=majority";
 
-//Asynchronous connection to database
-mongoose
-  .connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("Connected to the database"))
-  .catch((err) => console.log(err));
-
-const store = new MongoDBStore({
-  uri: uri,
-  collection: "session",
-});
+  const store = new MongoDBStore({
+    uri: uri,
+    collection: "session",
+  });
 
 //Middlewares
 app.use(express.json());
@@ -54,6 +45,7 @@ app.use(
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.set("trust proxy", 1);
 app.use(
   session({
     key: "userId",
@@ -65,10 +57,21 @@ app.use(
       maxAge: 60 * 60 * 24 * 30 * 1000,
       httpOnly: true,
       secure: false,
-      path: "/",
+      sameSite: "none",
     },
   })
 );
+
+//Asynchronous connection to database
+mongoose
+  .connect(uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("Connected to the database"))
+  .catch((err) => console.log(err));
+
+
 
 //Route Middlewares
 app.use("/api/auth", authRoute);
