@@ -7,6 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const cookieParser = require("cookie-parser");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const bodyParser = require("body-parser");
 
 const { Server } = require("socket.io");
 const http = require("http");
@@ -43,7 +44,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.set("trust proxy", 1);
 app.use(
