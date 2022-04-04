@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const UserSchema = new mongoose.Schema({
   username: {
     required: true,
@@ -39,7 +40,6 @@ const UserSchema = new mongoose.Schema({
 
   fullname: String,
 
-  fullname: String,
   
   email: {
     type: String,
@@ -50,6 +50,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   specialization: {
     type: String,
     required: true,

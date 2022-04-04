@@ -158,7 +158,6 @@ io.on("connection", (socket) => {
 
   socket.on("notif", () => {
     Notification.find({})
-      .populate("user")
       .populate("from")
       .then((result) => {
         io.emit("get_notif", result);

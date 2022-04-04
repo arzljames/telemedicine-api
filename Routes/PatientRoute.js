@@ -147,10 +147,10 @@ router.put("/add-case/:id", async (req, res) => {
 
   try {
     let result = await Case.create({
+      designation: '623ec7fb80a6838424edaa29',
       patient: patientId,
       physician: req.body.physician,
-      referralPhysician: req.body.referralPhysician,
-      hospital: req.body.hospital,
+      specialization: req.body.specialization,
       temperature: req.body.temperature,
       respiratory: req.body.respiratory,
       heart: req.body.heart,
@@ -175,9 +175,9 @@ router.put("/add-case/:id", async (req, res) => {
     if (result) {
       Notification.create({
         patient: patientId,
-        user: req.body.referralPhysician,
+        specialization: req.body.specialization,
         from: req.body.physician,
-        title: "added you to a case as an Attending Physician.",
+        title: "added a case to a department you belong.",
         body: `View for more details`,
         link: `/consultation/patients/case/case-data/${result._id}`,
         case: result._id,
@@ -197,6 +197,7 @@ router.put("/add-case/:id", async (req, res) => {
 router.get("/case", async (req, res) => {
   try {
     let result = await Case.find({})
+    .populate("designation")
       .populate("physician")
       .populate("patient");
     if (result) {

@@ -8,9 +8,8 @@ const NotificationSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: User,
+  specialization: {
+    String
   },
 
   from: {
