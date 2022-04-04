@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const User = require("../Models/User");
 const Facilities = require("../Models/Facilities");
-const checkAuth = require("../Middlewares/CheckAuth");
 const nodemailer = require("nodemailer");
 const randomstring = require("randomstring");
 

@@ -1,8 +1,7 @@
 const router = require("express").Router();
 const User = require("../Models/User");
-const checkAuth = require("../Middlewares/CheckAuth");
 
-router.get("/users", checkAuth, async (req, res) => {
+router.get("/users", async (req, res) => {
   let users = await User.find({});
 
   if (!users) {

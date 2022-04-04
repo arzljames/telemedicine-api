@@ -1,9 +1,8 @@
 const router = require("express").Router();
 const Facilities = require("../Models/Facilities");
-const checkAuth = require("../Middlewares/CheckAuth");
 const mongoose = require("mongoose");
 
-router.post("/add", checkAuth, async (req, res) => {
+router.post("/add", async (req, res) => {
   const facilities = {
     facility: req.body.name,
     specialization: req.body.specializations,
