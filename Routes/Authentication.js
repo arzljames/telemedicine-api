@@ -105,7 +105,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/login", checkAuth, (req, res) => {
+router.get("/login", (req, res) => {
   if (req.session.user) {
     res.send(req.session.user);
   } else {
