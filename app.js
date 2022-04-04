@@ -38,7 +38,7 @@ const uri =
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://zcmc.vercel.app", "*"],
+    origin: ["https://zcmc.vercel.app", "http://localhost:3000"],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
     credentials: true,
   })
@@ -93,7 +93,7 @@ app.get("/error", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: ["https://zcmc.vercel.app", "*"],
+    origin: ["https://zcmc.vercel.app", "http://localhost:3000"],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
   },
 });
