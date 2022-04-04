@@ -47,7 +47,7 @@ const store = new MongoDBStore({
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://capstone-client-rmyngqgv5-arzljames.vercel.app/",
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
     credentials: true,
   })
@@ -90,7 +90,7 @@ app.get("/error", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://capstone-client-rmyngqgv5-arzljames.vercel.app/",
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
   },
 });

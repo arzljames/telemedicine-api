@@ -188,6 +188,7 @@ router.put("/add-case/:id", async (req, res) => {
       res.send({ ok: result });
     }
   } catch (error) {
+    console.log(error)
     res.send({
       err: "A problem occured. Please check any empty field/s and try again.",
     });
