@@ -9,7 +9,7 @@ const NotificationSchema = new mongoose.Schema({
     default: true,
   },
   specialization: {
-    String
+    type: String,
   },
 
   from: {
