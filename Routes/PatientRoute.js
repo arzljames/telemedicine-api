@@ -149,6 +149,7 @@ router.put("/add-case/:id", async (req, res) => {
     let result = await Case.create({
       designation: '623ec7fb80a6838424edaa29',
       patient: patientId,
+      caseId: req.body.caseId,
       physician: req.body.physician,
       specialization: req.body.specialization,
       temperature: req.body.temperature,

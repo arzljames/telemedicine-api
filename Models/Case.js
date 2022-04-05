@@ -4,7 +4,7 @@ const Patient = require("../Models/Patient");
 const Facilities = require("./Facilities");
 
 const CaseSchema = new mongoose.Schema({
-  caseid: {
+  caseId: {
     type: String,
   },
 
