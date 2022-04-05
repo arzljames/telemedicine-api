@@ -163,7 +163,8 @@ router.delete("/multiple-delete", async (req, res) => {
       //   }
       // });
 
-      res.send({ ok: "Removed one (1) patient." });
+      res.send({ ok: patientsId });
+      //res.send({ ok: "Removed one (1) patient." });
     } else {
       res.send({ err: "There's a problem removing this patient." });
     }
