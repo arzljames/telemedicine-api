@@ -142,20 +142,22 @@ router.delete(`/delete/:id/`, async (req, res) => {
   }
 });
 
-router.delete('/multiple-delete', async (req, res) => {
+router.delete("/multiple-delete", async (req, res) => {
   const patientsId = req.body.patientsId;
 
   try {
-    let result = await Patient.deleteMany({ _id: {$in: patientsId} });
+    let result = await Patient.deleteMany({ _id: { $in: [patientsId] } });
 
     if (result) {
-      Notification.deleteMany({ patient: {$in: patientsId} }).then((err, success) => {
-        if (success) {
-          console.log(success);
+      Notification.deleteMany({ patient: { $in: patientsId } }).then(
+        (err, success) => {
+          if (success) {
+            console.log(success);
+          }
         }
-      });
+      );
 
-      Case.deleteMany({ patient: {$in: patientsId} }).then((err, success) => {
+      Case.deleteMany({ patient: { $in: patientsId } }).then((err, success) => {
         if (success) {
           console.log(success);
         }
@@ -175,7 +177,7 @@ router.put("/add-case/:id", async (req, res) => {
 
   try {
     let result = await Case.create({
-      designation: '623ec7fb80a6838424edaa29',
+      designation: "623ec7fb80a6838424edaa29",
       patient: patientId,
       caseId: req.body.caseId,
       physician: req.body.physician,
@@ -217,7 +219,7 @@ router.put("/add-case/:id", async (req, res) => {
       res.send({ ok: result });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.send({
       err: "A problem occured. Please check any empty field/s and try again.",
     });
@@ -227,7 +229,7 @@ router.put("/add-case/:id", async (req, res) => {
 router.get("/case", async (req, res) => {
   try {
     let result = await Case.find({})
-    .populate("designation")
+      .populate("designation")
       .populate("physician")
       .populate("patient");
     if (result) {
@@ -235,7 +237,7 @@ router.get("/case", async (req, res) => {
     }
   } catch (error) {
     res.send({ err: "401 error request." });
-    console.log(error)
+    console.log(error);
   }
 });
 
@@ -334,18 +336,18 @@ router.put("/case/activate/:id", async (req, res) => {
   }
 });
 
-router.put("/import-patients", async(req, res) => {
+router.put("/import-patients", async (req, res) => {
   try {
     let result = await Patient.insertMany(req.body.CSV);
 
-    if(result) {
+    if (result) {
       res.send({
-        ok: `Import ${req.body.CSV.length} patients.` 
-      })
+        ok: `Import ${req.body.CSV.length} patients.`,
+      });
     }
   } catch (error) {
-    res.send({err: error})
+    res.send({ err: error });
   }
-})
+});
 
 module.exports = router;
