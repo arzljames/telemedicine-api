@@ -146,22 +146,22 @@ router.delete("/multiple-delete", async (req, res) => {
   const patientsId = req.body.patientsId;
 
   try {
-    let result = await Patient.deleteMany({ _id: { $in: [patientsId] } });
+    let result = await Patient.deleteMany({ _id: { $in: patientsId } });
 
     if (result) {
-      Notification.deleteMany({ patient: { $in: patientsId } }).then(
-        (err, success) => {
-          if (success) {
-            console.log(success);
-          }
-        }
-      );
+      // Notification.deleteMany({ patient: { $in: patientsId } }).then(
+      //   (err, success) => {
+      //     if (success) {
+      //       console.log(success);
+      //     }
+      //   }
+      // );
 
-      Case.deleteMany({ patient: { $in: patientsId } }).then((err, success) => {
-        if (success) {
-          console.log(success);
-        }
-      });
+      // Case.deleteMany({ patient: { $in: patientsId } }).then((err, success) => {
+      //   if (success) {
+      //     console.log(success);
+      //   }
+      // });
 
       res.send({ ok: "Removed one (1) patient." });
     } else {
