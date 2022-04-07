@@ -209,9 +209,9 @@ router.put("/add-case/:id", async (req, res) => {
         patient: patientId,
         specialization: req.body.specialization,
         from: req.body.physician,
-        title: "added a case to a department you belong.",
+        title: "added a new consultation case to your department.",
         body: `View for more details`,
-        link: `/consultation/patients/case/case-data/${result._id}`,
+        link: `/consultation/case/case-data/${result._id}`,
         case: result._id,
       }).then((result) => {
         console.log(result);

@@ -2,7 +2,7 @@ const router = require("express").Router();
 const Chat = require("../Models/Chat");
 
 router.get("/", (req, res) => {
-  Chat.find({}).then((result) => {
+  Chat.find({}).populate('user').then((result) => {
     res.send(result)
   })
 });
