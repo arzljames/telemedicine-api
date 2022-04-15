@@ -145,7 +145,7 @@ router.post("/verify/:id", async (req, res) => {
       to: email,
       subject: "Account verification",
       html:
-        '<p>Click the link below to activate your account: <br /> <a href="http://localhost:3000/account/verification/' +
+        '<p>Click the link below to activate your account: <br /> <a href="https://zcmc.vercel.app/account/verification/' +
         randomString +
         "/" +
         id +
