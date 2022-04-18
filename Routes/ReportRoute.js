@@ -32,7 +32,7 @@ router.post("/create", async (req, res) => {
       res.send({ ok: result });
     }
   } catch (error) {
-    res.send({ err: "Error creating report" });
+    res.send({ err: error });
   }
 });
 
