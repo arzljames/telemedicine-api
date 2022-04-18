@@ -25,6 +25,7 @@ const patientRoute = require("./Routes/PatientRoute");
 const messageRoute = require("./Routes/MessageRoute");
 const notificationRoute = require("./Routes/NotificationRoute");
 const chatRoute = require("./Routes/ChatRoute");
+const reportRoute = require("./Routes/ReportRoute");
 
 //MongoDB URI for database connection
 const uri =
@@ -82,6 +83,7 @@ app.use("/api/patient", patientRoute);
 app.use("/api/message/", messageRoute);
 app.use("/api/notification/", notificationRoute);
 app.use("/api/chat/", chatRoute);
+app.use("/api/report/", reportRoute)
 
 
 app.get("/", (req, res) => {
