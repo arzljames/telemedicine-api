@@ -14,19 +14,19 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/create", async (req, res) => {
-  const report = {
-    creator: req.body.creator,
-    reportId: req.body.reportId,
-    from: req.body.from,
-    to: req.body.to,
-    refer: req.body.refer,
-    specialization: req.body.specialization,
-    age: req.body.age,
-    gender: req.body.gender,
-    physician: req.body.physician,
-  };
+  const report = {};
   try {
-    let result = await Report.create(report);
+    let result = await Report.create({
+      creator: req.body.creator,
+      reportId: req.body.reportId,
+      from: req.body.from,
+      to: req.body.to,
+      refer: req.body.refer,
+      specialization: req.body.specialization,
+      age: req.body.age,
+      gender: req.body.gender,
+      physician: req.body.physician,
+    });
 
     if (result) {
       res.send({ ok: result });
