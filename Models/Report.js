@@ -1,12 +1,9 @@
 const mongoose = require("mongoose");
-const User = require("../Models/User");
-const Facilities = require("../Models/Facilities");
 
 const ReportSchema = new mongoose.Schema(
   {
     creator: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: User,
+      type: String,
       required: false,
     },
     reportId: {
@@ -16,8 +13,7 @@ const ReportSchema = new mongoose.Schema(
     from: { type: Date, required: false },
     to: { type: Date, required: false },
     refer: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: Facilities,
+      type: String,
       required: false,
     },
     specialization: {
@@ -30,11 +26,6 @@ const ReportSchema = new mongoose.Schema(
     },
     gender: {
       type: String,
-      required: false,
-    },
-    physician: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: User,
       required: false,
     },
   },
