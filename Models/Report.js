@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
+const User = require("../Models/User");
 
 const ReportSchema = new mongoose.Schema(
   {
     creator: {
-      type: String,
-      required: false,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
     },
     reportId: {
       type: String,

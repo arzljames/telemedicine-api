@@ -3,7 +3,7 @@ const Report = require("../Models/Report");
 
 router.get("/", async (req, res) => {
   try {
-    let result = await Report.find({});
+    let result = await Report.find({}).populate("creator");
 
     if (result) {
       res.send(result);
