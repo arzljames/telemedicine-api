@@ -7,20 +7,35 @@ const ReportSchema = new mongoose.Schema(
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: User,
+      required: false,
     },
-    reportId: String,
-    from: Date,
-    to: Date,
+    reportId: {
+      type: String,
+      required: false,
+    },
+    from: { type: Date, required: false },
+    to: { type: Date, required: false },
     refer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: Facilities,
+      required: false,
     },
-    specialization: String,
-    age: Number,
-    gender: String,
+    specialization: {
+      type: String,
+      required: false,
+    },
+    age: {
+      type: Number,
+      required: false,
+    },
+    gender: {
+      type: String,
+      required: false,
+    },
     physician: {
       type: mongoose.Schema.Types.ObjectId,
       ref: User,
+      required: false,
     },
   },
   { timestamps: true }
