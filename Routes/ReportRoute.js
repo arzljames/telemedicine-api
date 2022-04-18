@@ -1,6 +1,18 @@
 const router = require("express").Router();
 const Report = require("../Models/Report");
 
+router.get("/", async (req, res) => {
+  try {
+    let result = await Report.find({});
+
+    if (result) {
+      res.send(result);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.post("/create", async (req, res) => {
   const report = {
     creator: req.body.creator,
@@ -17,9 +29,11 @@ router.post("/create", async (req, res) => {
     let result = await Report.create(report);
 
     if (result) {
-      res.send(result);
+      res.send({ ok: result });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.send({ err: "Error creating report" });
+  }
 });
 
 module.exports = router;
