@@ -218,10 +218,10 @@ router.get("/recover/:email", async(req, res) => {
           '">Reset Password.</a></p>',
       };
 
-      res.send({ok: 'success'})
+      res.send({ok: 'result'})
     } else {
       res.send({
-        err: 'We cannot find this email'
+        err: 'Email is not associated with any ZCMC Telemedicine account'
       })
     }
   } catch (error) {
