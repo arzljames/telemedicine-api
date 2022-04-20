@@ -202,24 +202,10 @@ router.get("/status/:id", async (req, res) => {
 router.get("/recover/:email", async(req, res) => {
   const email = req.params.email;
   try {
-    // const transporter = nodemailer.createTransport({
-    //   service: "gmail",
-    //   auth: {
-    //     user: "ojttelemedicine@gmail.com",
-    //     pass: "vqmwdonwldpovgou",
-    //   },
-    // });
 
-    // let randomString = randomstring.generate({
-    //   length: 48,
-    //   charset: "alphabetic",
-    // });
+    let result = await User.findOne({email});
 
-   
-
-    let findEmail = await User.findOne({email: email});
-
-    if(findEmail.length > 0) {
+    if(result.length > 0) {
       const mailOptions = {
         from: "ojttelemedicine@gmail.com",
         to: email,
@@ -228,11 +214,11 @@ router.get("/recover/:email", async(req, res) => {
           '<p>Click the link below to reset your password: <br /> <a href="https://zcmc.vercel.app/account/reset-password/' +
           randomString +
           "/" +
-          findEmail._id +
+          result._id +
           '">Reset Password.</a></p>',
       };
 
-      res.send({ok: findEmail})
+      res.send({ok: result})
     } else {
       res.send({
         err: 'Email is not associated with any ZCMC Telemedicine account'
