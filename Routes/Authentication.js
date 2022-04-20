@@ -219,7 +219,7 @@ router.get("/recover", async(req, res) => {
 
     let findEmail = await User.findOne({email: email});
 
-    if(findEmail.length !== 0) {
+    if(findEmail.length > 0) {
       const mailOptions = {
         from: "ojttelemedicine@gmail.com",
         to: email,
@@ -232,7 +232,7 @@ router.get("/recover", async(req, res) => {
           '">Reset Password.</a></p>',
       };
 
-      res.send({ok: email})
+      res.send({ok: findEmail})
     } else {
       res.send({
         err: 'Email is not associated with any ZCMC Telemedicine account'
