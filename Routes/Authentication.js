@@ -7,6 +7,19 @@ const randomstring = require("randomstring");
 const brcypt = require("bcrypt");
 const saltRounds = 10;
 
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "ojttelemedicine@gmail.com",
+    pass: "vqmwdonwldpovgou",
+  },
+});
+
+let randomString = randomstring.generate({
+  length: 48,
+  charset: "alphabetic",
+});
+
 router.post("/register", async (req, res) => {
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
@@ -127,18 +140,7 @@ router.post("/verify/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "ojttelemedicine@gmail.com",
-        pass: "vqmwdonwldpovgou",
-      },
-    });
-
-    let randomString = randomstring.generate({
-      length: 48,
-      charset: "alphabetic",
-    });
+    
 
     const mailOptions = {
       from: "ojttelemedicine@gmail.com",
