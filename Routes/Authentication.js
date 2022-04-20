@@ -235,7 +235,7 @@ router.get("/recover", async(req, res) => {
       res.send({ok: findEmail})
     } else {
       res.send({
-        err: 'Email is not associated with any ZCMC Telemedicine account'
+        err: email
       })
     }
   } catch (error) {
