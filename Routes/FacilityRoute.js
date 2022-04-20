@@ -24,6 +24,29 @@ router.post("/add", async (req, res) => {
   }
 });
 
+router.put("/update/:id", async (req, res) => {
+  const id = req.params.id;
+  const facilities = {
+    facility: req.body.name,
+    specialization: req.body.specializations,
+    address: {
+      street: req.body.street,
+      city: req.body.city,
+      barangay: req.body.barangay,
+    },
+  };
+
+  try {
+    let result = await Facilities.findByIdAndUpdate({_id: id}, {facilities});
+
+    if (result) {
+      res.send({ ok: "Facility successfully added.", result });
+    }
+  } catch (error) {
+    res.send({ err: error });
+  }
+})
+
 router.get('/get-spec', async(req, res) => {
   try {
     let result = await Facilities.findById({_id: '623ec7fb80a6838424edaa29'});
