@@ -41,7 +41,6 @@ router.put("/update/:id", async (req, res) => {
       { _id: id },
       {
         facility: req.body.name,
-        specialization: req.body.specializations,
         address: {
           street: req.body.street,
           city: req.body.city,
