@@ -37,7 +37,18 @@ router.put("/update/:id", async (req, res) => {
   };
 
   try {
-    let result = await Facilities.findByIdAndUpdate({_id: id}, {facilities});
+    let result = await Facilities.findByIdAndUpdate(
+      { _id: id },
+      {
+        facility: req.body.name,
+        specialization: req.body.specializations,
+        address: {
+          street: req.body.street,
+          city: req.body.city,
+          barangay: req.body.barangay,
+        },
+      }
+    );
 
     if (result) {
       res.send({ ok: "Facility successfully added.", result });
@@ -45,18 +56,18 @@ router.put("/update/:id", async (req, res) => {
   } catch (error) {
     res.send({ err: error });
   }
-})
+});
 
-router.get('/get-spec', async(req, res) => {
+router.get("/get-spec", async (req, res) => {
   try {
-    let result = await Facilities.findById({_id: '623ec7fb80a6838424edaa29'});
+    let result = await Facilities.findById({ _id: "623ec7fb80a6838424edaa29" });
 
-    console.log(result)
-    res.send(result.specialization)
+    console.log(result);
+    res.send(result.specialization);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-})
+});
 
 router.get("/", (req, res) => {
   Facilities.find({})
