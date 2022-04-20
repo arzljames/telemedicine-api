@@ -85,16 +85,16 @@ router.get("/get-spec", async (req, res) => {
   }
 });
 
-router.get("/", (req, res) => {
-  Facilities.find({})
-    .populate("user")
-    .exec((err, result) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(result);
-      }
-    });
+router.get("/", async (req, res) => {
+  try {
+    let result = await Facilities.find({}).populate("user");
+
+    if (result) {
+      res.send(result);
+    }
+  } catch (error) {
+    res.send({ err: error.message });
+  }
 });
 
 module.exports = router;
