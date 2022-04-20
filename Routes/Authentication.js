@@ -233,7 +233,7 @@ router.post("/recover", async(req, res) => {
       res.send({err: 'cant find'})
     }
   } catch (error) {
-    
+    console.log(error)
   }
 })
 
