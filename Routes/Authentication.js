@@ -200,7 +200,7 @@ router.get("/status/:id", async (req, res) => {
 
 
 router.get("/recover", async(req, res) => {
-  const email = req.body.email;
+  const email = req.params.email;
   try {
     // const transporter = nodemailer.createTransport({
     //   service: "gmail",
@@ -235,7 +235,7 @@ router.get("/recover", async(req, res) => {
       res.send({ok: findEmail})
     } else {
       res.send({
-        err: email
+        err: 'Email is not associated with any ZCMC Telemedicine account'
       })
     }
   } catch (error) {
