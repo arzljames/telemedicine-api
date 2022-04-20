@@ -21,4 +21,26 @@ router.get("/message/:from/:receiver", async (req, res) => {
     console.log(req.params.receiver);
   }
 });
+
+
+router.post('/create-chat/:id/:receiver', async(req, res) => {
+  try {
+    const id = req.params.id;
+    const receiver = req.params.receiver;
+    const msg = req.body.msg;
+
+
+    let response = Chat.create({
+      user: [id, receiver],
+      content: msg,
+      sender: id,
+    });
+
+    if(response) {
+      res.send(response);
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
 module.exports = router;
