@@ -219,7 +219,7 @@ router.get("/recover", async(req, res) => {
 
     let findEmail = await User.findOne({email: email});
 
-    if(findEmail) {
+    if(findEmail.length !== 0) {
       const mailOptions = {
         from: "ojttelemedicine@gmail.com",
         to: email,
