@@ -227,11 +227,7 @@ router.post("/recover", async(req, res) => {
 
     let findEmail = await User.find({email});
 
-    if(findEmail) {
-      res.send({ok: "sd"})
-    } else {
-      res.send({err: 'cant find'})
-    }
+    res.send("sds")
   } catch (error) {
     console.log(error)
   }
