@@ -30,7 +30,7 @@ router.post('/create-chat/:id/:receiver', async(req, res) => {
     const msg = req.body.msg;
 
 
-    let response = Chat.create({
+    let response = await  Chat.create({
       user: [id, receiver],
       content: msg,
       sender: id,
