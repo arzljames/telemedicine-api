@@ -57,6 +57,23 @@ router.put("/update/:id", async (req, res) => {
   }
 });
 
+router.put("/update-spec/:id", async (req, res) => {
+  const id = req.params.id;
+  const name = req.body.name;
+  try {
+    let response = await Facilities.updateOne(
+      { "specialization._id": id },
+      {
+        "specialization.$.name": name,
+      }
+    );
+
+    if (response) {
+      res.send({ ok: "updated", response });
+    }
+  } catch (error) {}
+});
+
 router.get("/get-spec", async (req, res) => {
   try {
     let result = await Facilities.findById({ _id: "623ec7fb80a6838424edaa29" });
