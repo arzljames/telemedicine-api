@@ -37,7 +37,7 @@ router.post('/create-chat/:id/:receiver', async(req, res) => {
     });
 
     if(response) {
-      res.send(response);
+      res.send({ok: "Chat sent."});
     }
   } catch (error) {
     console.log(error)
