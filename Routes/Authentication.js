@@ -202,18 +202,18 @@ router.get("/status/:id", async (req, res) => {
 router.get("/recover", async(req, res) => {
   const email = req.body.email;
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "ojttelemedicine@gmail.com",
-        pass: "vqmwdonwldpovgou",
-      },
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: "ojttelemedicine@gmail.com",
+    //     pass: "vqmwdonwldpovgou",
+    //   },
+    // });
 
-    let randomString = randomstring.generate({
-      length: 48,
-      charset: "alphabetic",
-    });
+    // let randomString = randomstring.generate({
+    //   length: 48,
+    //   charset: "alphabetic",
+    // });
 
    
 
