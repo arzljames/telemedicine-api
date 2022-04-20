@@ -200,34 +200,36 @@ router.get("/status/:id", async (req, res) => {
 router.get("/recover", async(req, res) => {
   const email = req.body.email;
   try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "ojttelemedicine@gmail.com",
-        pass: "vqmwdonwldpovgou",
-      },
-    });
+    // const transporter = nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: "ojttelemedicine@gmail.com",
+    //     pass: "vqmwdonwldpovgou",
+    //   },
+    // });
 
-    let randomString = randomstring.generate({
-      length: 48,
-      charset: "alphabetic",
-    });
+    // let randomString = randomstring.generate({
+    //   length: 48,
+    //   charset: "alphabetic",
+    // });
 
-    const mailOptions = {
-      from: "ojttelemedicine@gmail.com",
-      to: email,
-      subject: "Account verification",
-      html:
-        '<p>Click the link below to activate your account: <br /> <a href="https://zcmc.vercel.app/account/verification/' +
-        randomString +
-        "/" +
-        id +
-        '">Verify Account.</a></p>',
-    };
+    // const mailOptions = {
+    //   from: "ojttelemedicine@gmail.com",
+    //   to: email,
+    //   subject: "Account verification",
+    //   html:
+    //     '<p>Click the link below to activate your account: <br /> <a href="https://zcmc.vercel.app/account/verification/' +
+    //     randomString +
+    //     "/" +
+    //     id +
+    //     '">Verify Account.</a></p>',
+    // };
 
     let findEmail = await User.find({email});
 
-    res.send("sds")
+    if(findEmail) {
+      res.send(findEmail)
+    }
   } catch (error) {
     console.log(error)
   }
