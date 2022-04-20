@@ -199,7 +199,7 @@ router.get("/status/:id", async (req, res) => {
 });
 
 
-router.get("/recover", async(req, res) => {
+router.get("/recover/:email", async(req, res) => {
   const email = req.params.email;
   try {
     // const transporter = nodemailer.createTransport({
