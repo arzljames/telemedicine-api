@@ -88,7 +88,7 @@ router.put("/change-password/:id", async (req, res) => {
     let result = await User.findById({ _id: id });
 
     if (result) {
-      res.send({ ok: result });
+      res.send({ ok: result.password });
     }
 
     // if (result) {
