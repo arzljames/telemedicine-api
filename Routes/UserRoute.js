@@ -94,14 +94,18 @@ router.put("/change-password/:id", async (req, res) => {
         if (result === false) {
           res.send({ err: "Password did not match" });
           return;
-        }
-
-        let changePassword = await User.findByIdAndUpdate({_id: id}, {
-          password: hash
-        });
-
-        if(changePassword) {
-          res.send({ok: "Successfully changed password"})
+        } else {
+          User.findByIdAndUpdate(
+            { _id: id },
+            {
+              password: hash,
+            },
+            (no, yes) => {
+              if (yes) {
+                res.send({ ok: "Successfully changed password" });
+              }
+            }
+          );
         }
       });
     }
