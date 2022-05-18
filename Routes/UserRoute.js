@@ -88,7 +88,7 @@ router.put("/change-password/:id", async (req, res) => {
     let user = await User.findById({ _id: id });
 
     if (user) {
-      brcypt.compare(old, result.password, (error, result) => {
+      brcypt.compare(old, user.password, (error, result) => {
         if (result) {
           res.send({ ok: result });
         } else {
