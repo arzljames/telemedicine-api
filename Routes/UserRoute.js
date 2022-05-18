@@ -89,9 +89,9 @@ router.put("/change-password/:id", async (req, res) => {
 
     brcypt.compare(result.password, old, (error, result) => {
       if (result) {
-        res.send({ ok: "Password match" });
+        res.send({ ok: `${result.password} | ${old} - match` });
       } else {
-        res.send({ err: "Password did not match" });
+        res.send({ ok: `${result.password} | ${old} - not match` });
       }
     });
   } catch (error) {
