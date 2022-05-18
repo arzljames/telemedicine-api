@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../Models/User");
+const brcypt = require("bcrypt");
 
 router.get("/users", async (req, res) => {
   let users = await User.find({});
@@ -73,6 +74,28 @@ router.put(`/profile/:id`, async (req, res) => {
     if (result) {
       console.log(result);
     }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.put("/change-password/:id", async (req, res) => {
+  const id = req.params.id;
+  const old = req.body.old;
+  const newP = req.body.newP;
+
+  try {
+    let result = await User.findByIdAndUpdate(
+      { _id: id },
+      { picture: req.body.picture }
+    );
+
+    brcypt.compare(result.password, old, (error, result) => {
+      if (error) {
+        res.send({ err: "Password did not match" });
+        return;
+      }
+    });
   } catch (error) {
     console.log(error);
   }

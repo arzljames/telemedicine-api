@@ -140,8 +140,6 @@ router.post("/verify/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
-    
-
     const mailOptions = {
       from: "ojttelemedicine@gmail.com",
       to: email,
@@ -198,14 +196,12 @@ router.get("/status/:id", async (req, res) => {
   }
 });
 
-
-router.get("/recover/:email", async(req, res) => {
+router.get("/recover/:email", async (req, res) => {
   const email = req.params.email;
   try {
+    let result = await User.findOne({ email });
 
-    let result = await User.findOne({email});
-
-    if(result) {
+    if (result) {
       const mailOptions = {
         from: "ojttelemedicine@gmail.com",
         to: email,
@@ -218,15 +214,15 @@ router.get("/recover/:email", async(req, res) => {
           '">Reset Password.</a></p>',
       };
 
-      res.send({ok: 'result'})
+      res.send({ ok: "result" });
     } else {
       res.send({
-        err: 'Email is not associated with any ZCMC Telemedicine account'
-      })
+        err: "Email is not associated with any ZCMC Telemedicine account",
+      });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-})
+});
 
 module.exports = router;
