@@ -21,7 +21,11 @@ const ReportSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    age: {
+    minage: {
+      type: Number,
+      required: false,
+    },
+    maxage: {
       type: Number,
       required: false,
     },

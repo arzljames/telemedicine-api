@@ -21,7 +21,8 @@ router.post("/create", async (req, res) => {
     to: req.body.to,
     refer: req.body.refer,
     specialization: req.body.specialization,
-    age: req.body.age,
+    minage: req.body.minage,
+    maxage: req.body.maxage,
     gender: req.body.gender,
   };
   try {
