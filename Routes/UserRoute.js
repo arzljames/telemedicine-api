@@ -88,18 +88,14 @@ router.put("/change-password/:id", async (req, res) => {
     let result = await User.findById({ _id: id });
 
     if (result) {
-      res.send({ ok: result.password });
+      brcypt.compare(result.password, old, (error, result) => {
+        if (result) {
+          res.send({ ok: `${result.password} | ${old} - match` });
+        } else {
+          res.send({ ok: `${result.password} | ${old} - not match` });
+        }
+      });
     }
-
-    // if (result) {
-    //   brcypt.compare(result.password, old, (error, result) => {
-    //     if (result) {
-    //       res.send({ ok: `${result.password} | ${old} - match` });
-    //     } else {
-    //       res.send({ ok: `${result.password} | ${old} - not match` });
-    //     }
-    //   });
-    // }
   } catch (error) {
     console.log(error);
   }
