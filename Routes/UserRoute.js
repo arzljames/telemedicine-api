@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../Models/User");
 const brcypt = require("bcrypt");
+const saltRounds = 10;
 
 router.get("/users", async (req, res) => {
   let users = await User.find({});
@@ -90,9 +91,16 @@ router.put("/change-password/:id", async (req, res) => {
     if (user) {
       brcypt.compare(old, user.password, (error, result) => {
         if (result) {
-          res.send({ ok: result });
+          let hash = await brcypt.hash(password, saltRounds);
+          let changePassword = await User.findByIdAndUpdate({_id: id}, {
+            password: hash
+          });
+
+          if(changePassword) {
+            res.send({ok: "Successfully changed password"})
+          }
         } else {
-          res.send({ err: result });
+          res.send({ err: "Password did not match" });
         }
       });
     }
