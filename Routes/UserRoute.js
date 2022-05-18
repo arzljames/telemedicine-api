@@ -87,20 +87,21 @@ router.put("/change-password/:id", async (req, res) => {
 
   try {
     let user = await User.findById({ _id: id });
+    let hash = await brcypt.hash(newP, saltRounds);
 
     if (user) {
       brcypt.compare(old, user.password, (error, result) => {
-        if (result) {
-          let hash = await brcypt.hash(newP, saltRounds);
-          let changePassword = await User.findByIdAndUpdate({_id: id}, {
-            password: hash
-          });
-
-          if(changePassword) {
-            res.send({ok: "Successfully changed password"})
-          }
-        } else {
+        if (result === false) {
           res.send({ err: "Password did not match" });
+          return;
+        }
+
+        let changePassword = await User.findByIdAndUpdate({_id: id}, {
+          password: hash
+        });
+
+        if(changePassword) {
+          res.send({ok: "Successfully changed password"})
         }
       });
     }
