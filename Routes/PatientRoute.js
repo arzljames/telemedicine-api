@@ -291,12 +291,12 @@ router.delete("/delete-case/:id", async (req, res) => {
   try {
     let result = await Case.findByIdAndDelete({ _id: req.params.id });
     if (result) {
-      Notification.deleteMany({ case: req.params.id }).then((err, success) => {
-        if (success) {
-          console.log(success);
-        }
-      });
+      Notification.deleteMany({ case: req.params.id }).then(
+        (err, success) => {}
+      );
       res.send({ ok: "Successfullly deleted one (1) case." });
+    } else {
+      res.send({ err: "Error" });
     }
   } catch (error) {
     res.send({ err: error });
