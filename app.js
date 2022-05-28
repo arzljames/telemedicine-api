@@ -31,10 +31,10 @@ const reportRoute = require("./Routes/ReportRoute");
 const uri =
   "mongodb+srv://admin:admin@ojt-cluster.zdqa4.mongodb.net/TelemedicineDB?retryWrites=true&w=majority";
 
-  const store = new MongoDBStore({
-    uri: uri,
-    collection: "session",
-  });
+const store = new MongoDBStore({
+  uri: uri,
+  collection: "session",
+});
 
 //Middlewares
 app.use(express.json());
@@ -73,8 +73,6 @@ mongoose
   .then(() => console.log("Connected to the database"))
   .catch((err) => console.log(err));
 
-
-
 //Route Middlewares
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
@@ -83,12 +81,11 @@ app.use("/api/patient", patientRoute);
 app.use("/api/message/", messageRoute);
 app.use("/api/notification/", notificationRoute);
 app.use("/api/chat/", chatRoute);
-app.use("/api/report/", reportRoute)
-
+app.use("/api/report/", reportRoute);
 
 app.get("/", (req, res) => {
-  res.send("working")
-})
+  res.send("working");
+});
 
 // !Warning Very important route do not delete
 app.get("/error", (req, res) => {
@@ -97,7 +94,11 @@ app.get("/error", (req, res) => {
 
 const io = new Server(server, {
   cors: {
-    origin: ["https://zcmc.vercel.app", "http://localhost:3000"],
+    origin: [
+      "https://zcmc.vercel.app",
+      "http://localhost:3000",
+      "https://zcmc.netlify.app",
+    ],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
   },
 });
@@ -159,7 +160,8 @@ io.on("connection", (socket) => {
       Chat.find({
         user: { $in: [data.from && data.to] },
       })
-        .populate("user").populate("sender")
+        .populate("user")
+        .populate("sender")
         .then((result) => {
           io.emit("chat_messages", result);
           console.log(result);
