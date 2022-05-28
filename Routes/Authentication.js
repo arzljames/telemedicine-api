@@ -114,7 +114,7 @@ router.post("/login", async (req, res) => {
             }
           );
 
-          res.send({ token: accessToken });
+          res.send(req.session.user);
         } else {
           res.send({
             err: "Incorrect username or password",
