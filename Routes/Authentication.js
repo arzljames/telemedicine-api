@@ -4,6 +4,9 @@ const Facilities = require("../Models/Facilities");
 const nodemailer = require("nodemailer");
 const randomstring = require("randomstring");
 
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 const brcypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -101,7 +104,17 @@ router.post("/login", async (req, res) => {
             specialization: user.specialization,
             picture: user.picture,
           };
-          res.send(req.session.user);
+          const accessToken = jwt.sign(
+            {
+              username: user.username,
+            },
+            "123",
+            {
+              expiresIn: "600s",
+            }
+          );
+
+          res.send({ session: req.session.user, token: accessToken });
         } else {
           res.send({
             err: "Incorrect username or password",
