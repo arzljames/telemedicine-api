@@ -56,7 +56,7 @@ app.use(
   session({
     key: "userId",
     secret: "This is a cookie secret ID",
-    resave: true,
+    resave: false,
     saveUninitialized: false,
     store: store,
     cookie: {
