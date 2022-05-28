@@ -29,6 +29,7 @@ const chatRoute = require("./Routes/ChatRoute");
 const reportRoute = require("./Routes/ReportRoute");
 
 app.use(express.static(path.join(__dirname, "build")));
+app.set("trust proxy", 1);
 
 //MongoDB URI for database connection
 const uri =
