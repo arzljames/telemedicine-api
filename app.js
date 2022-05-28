@@ -55,7 +55,6 @@ app.set("trust proxy", 1);
 app.use(
   session({
     key: "userId",
-    cooki,
     secret: "This is a cookie secret ID",
     resave: false,
     saveUninitialized: false,
