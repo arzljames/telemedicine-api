@@ -28,7 +28,7 @@ const notificationRoute = require("./Routes/NotificationRoute");
 const chatRoute = require("./Routes/ChatRoute");
 const reportRoute = require("./Routes/ReportRoute");
 
-app.use(express.static(path.join(__dirname, "build")));
+app.use(express.static("client/build"));
 app.set("trust proxy", 1);
 
 //MongoDB URI for database connection
