@@ -40,7 +40,11 @@ const store = new MongoDBStore({
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://zcmc.vercel.app", "http://localhost:3000"],
+    origin: [
+      "https://zcmc.vercel.app",
+      "http://localhost:3000",
+      "https://zcmc.netlify.app/",
+    ],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
     credentials: true,
   })
