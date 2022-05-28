@@ -16,6 +16,7 @@ const Message = require("./Models/Message");
 const Notification = require("./Models/Notification");
 const User = require("./Models/User");
 const Chat = require("./Models/Chat");
+const path = require("path");
 
 //Importing Routes
 const authRoute = require("./Routes/Authentication");
@@ -26,6 +27,8 @@ const messageRoute = require("./Routes/MessageRoute");
 const notificationRoute = require("./Routes/NotificationRoute");
 const chatRoute = require("./Routes/ChatRoute");
 const reportRoute = require("./Routes/ReportRoute");
+
+app.use(express.static(path.join(__dirname, "build")));
 
 //MongoDB URI for database connection
 const uri =
