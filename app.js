@@ -97,7 +97,7 @@ const io = new Server(server, {
     origin: [
       "https://zcmc.vercel.app",
       "http://localhost:3000",
-      "https://zcmc.netlify.app",
+      "https://zcmc.netlify.app/",
     ],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
   },
