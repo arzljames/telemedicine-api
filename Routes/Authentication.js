@@ -130,7 +130,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/login", (req, res) => {
+router.get("/login/", (req, res) => {
   if (req.session.user) {
     res.send(req.session.user);
   } else {
@@ -138,7 +138,7 @@ router.get("/login", (req, res) => {
   }
 });
 
-router.get("/logout", (req, res) => {
+router.get("/logout/", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.log(err);
