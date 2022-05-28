@@ -48,6 +48,7 @@ app.use(
       "https://zcmc.vercel.app",
       "http://localhost:3000",
       "https://zcmc.netlify.app",
+      "/",
     ],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
     credentials: true,
