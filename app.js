@@ -43,7 +43,7 @@ app.use(
     origin: [
       "https://zcmc.vercel.app",
       "http://localhost:3000",
-      "https://zcmc.netlify.app/",
+      "https://zcmc.netlify.app",
     ],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
     credentials: true,
@@ -88,7 +88,7 @@ app.use("/api/chat/", chatRoute);
 app.use("/api/report/", reportRoute);
 
 app.get("/", (req, res) => {
-  res.send("working");
+  res.send("workings");
 });
 
 // !Warning Very important route do not delete
@@ -101,7 +101,7 @@ const io = new Server(server, {
     origin: [
       "https://zcmc.vercel.app",
       "http://localhost:3000",
-      "https://zcmc.netlify.app/",
+      "https://zcmc.netlify.app",
     ],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
   },
