@@ -29,7 +29,7 @@ const chatRoute = require("./Routes/ChatRoute");
 const reportRoute = require("./Routes/ReportRoute");
 
 // app.use(express.static("client/build"));
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 //MongoDB URI for database connection
 const uri =
@@ -67,7 +67,6 @@ app.use(
       maxAge: 60 * 60 * 24 * 30 * 1000,
       httpOnly: true,
       secure: true,
-      // sameSite: true,
       sameSite: "none",
     },
   })
