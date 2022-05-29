@@ -92,8 +92,8 @@ app.use("/api/notification/", notificationRoute);
 app.use("/api/chat/", chatRoute);
 app.use("/api/report/", reportRoute);
 
-app.get("/", (req, res) => {
-  res.send("workings");
+app.get("/*", (req, res) => {
+  res.sendFile(path.resolve(__dirname + "/client/build/index.html"));
 });
 
 // !Warning Very important route do not delete
