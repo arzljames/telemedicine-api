@@ -96,6 +96,10 @@ app.use("/api/report/", reportRoute);
 //   res.sendFile(path.resolve(__dirname + "/client/build/index.html"));
 // });
 
+app.get("/", (req, res) => {
+  res.send("working");
+});
+
 // !Warning Very important route do not delete
 app.get("/error", (req, res) => {
   res.send("You are not authenticated.");
