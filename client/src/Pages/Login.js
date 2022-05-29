@@ -122,7 +122,7 @@ const Login = () => {
 
         <div className="login-header">
           <h1>Sign in</h1>
-          <p>Enter your credentials to continue</p>
+          <p>Enter your credentials to continues</p>
         </div>
         <form className="login-form" onSubmit={(e) => e.preventDefault()}>
           <label>

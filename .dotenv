@@ -1,2 +1,11 @@
 ACCESS_TOKEN=3fbe71b8cd2b749cf614310e1782978d9beaddd9c537ffa1d00fb3250ba981741e48c50e0fad7cc788bbb284b63637b7508d815ddf01229505ce800cbf0c408f
 REFRESH_TOKEN=f5043d1b57da0e03a12a0c457fe6a595167eab950757de4420f33211b181ee960c7654e7af858d594baf25b8825d79111b4296fa308816611e4c4e554363c80d
+
+
+
+
+
+
+"build": "cd client && npm run build",
+"install-client": "cd client && npm install",
+"heroku-postbuild": "npm run install-client && npm run build"
