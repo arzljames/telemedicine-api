@@ -28,7 +28,7 @@ const notificationRoute = require("./Routes/NotificationRoute");
 const chatRoute = require("./Routes/ChatRoute");
 const reportRoute = require("./Routes/ReportRoute");
 
-app.use(express.static("client/build"));
+// app.use(express.static("client/build"));
 app.set("trust proxy", 1);
 
 //MongoDB URI for database connection
@@ -48,7 +48,6 @@ app.use(
       "https://zcmc.vercel.app",
       "http://localhost:3000",
       "https://zcmc.netlify.app",
-      "/",
     ],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
     credentials: true,
@@ -68,7 +67,8 @@ app.use(
       maxAge: 60 * 60 * 24 * 30 * 1000,
       httpOnly: true,
       secure: true,
-      sameSite: true,
+      // sameSite: true,
+      sameSite: "none",
     },
   })
 );
@@ -92,9 +92,9 @@ app.use("/api/notification/", notificationRoute);
 app.use("/api/chat/", chatRoute);
 app.use("/api/report/", reportRoute);
 
-app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname + "/client/build/index.html"));
-});
+// app.get("/*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname + "/client/build/index.html"));
+// });
 
 // !Warning Very important route do not delete
 app.get("/error", (req, res) => {
