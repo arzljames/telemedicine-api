@@ -153,6 +153,10 @@ io.on("connection", (socket) => {
       user: data.user,
       room: data.room,
       content: data.content,
+      attachment: {
+        file: data.file,
+        name: data.name,
+      },
     }).then(() => {
       Message.find({})
         .populate("user")
