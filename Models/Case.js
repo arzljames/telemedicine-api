@@ -35,7 +35,8 @@ const CaseSchema = new mongoose.Schema({
   },
 
   specialization: {
-    type: String,
+    type: Array,
+    default: [],
   },
   temperature: {
     type: String,
