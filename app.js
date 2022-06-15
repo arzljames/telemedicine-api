@@ -96,7 +96,7 @@ app.use("/api/report/", reportRoute);
 // });
 
 app.get("/", (req, res) => {
-  res.send("working");
+  res.send("Server is working");
 });
 
 // !Warning Very important route do not delete
