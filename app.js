@@ -27,6 +27,7 @@ const messageRoute = require("./Routes/MessageRoute");
 const notificationRoute = require("./Routes/NotificationRoute");
 const chatRoute = require("./Routes/ChatRoute");
 const reportRoute = require("./Routes/ReportRoute");
+const specializationRoute = require("./Routes/SpecializationRoute");
 
 // app.use(express.static("client/build"));
 // app.set("trust proxy", 1);
@@ -90,6 +91,7 @@ app.use("/api/message/", messageRoute);
 app.use("/api/notification/", notificationRoute);
 app.use("/api/chat/", chatRoute);
 app.use("/api/report/", reportRoute);
+app.use("/api/spec/", specializationRoute);
 
 // app.get("/*", (req, res) => {
 //   res.sendFile(path.resolve(__dirname + "/client/build/index.html"));
