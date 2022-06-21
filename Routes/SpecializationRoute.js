@@ -7,3 +7,6 @@ const Specialization = require("../Models/Specialization")
 router.get("/", (req, res) => {
     res.send("speci working")
 })
+
+
+module.exports = router;
