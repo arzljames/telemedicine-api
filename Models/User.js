@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Specialization = require("./Specialization");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -50,9 +51,10 @@ const UserSchema = new mongoose.Schema(
     },
 
     specialization: {
-      type: String,
-      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: Specialization,
     },
+
     picture: {
       type: String,
     },
