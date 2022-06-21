@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
 
 router.get("/message/:from/:receiver", async (req, res) => {
   try {
-    let result = await Chat.find({
+    let result = await Chat.findOne({
       user: { $in: [req.params.from && req.params.receiver] },
     }).populate("user").populate("sender")
     if (result) {
