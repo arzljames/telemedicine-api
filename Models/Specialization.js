@@ -4,10 +4,10 @@ const User = require("./User");
 const SpecializationSchema = new mongoose.Schema(
   {
     specialization: String,
-    user: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: User
-    }]
+    // user: [{
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: User
+    // }]
   },
 
   { timestamps: true }
