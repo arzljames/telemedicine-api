@@ -4,8 +4,23 @@ const Specialization = require("../Models/Specialization")
 
 
 
-router.get("/", (req, res) => {
-    res.send("speci working")
+router.get("/add", async(req, res) => {
+    const specialization = req.body.specialization;
+    const description = req.body.description;
+
+
+    try {
+        let result = await Specialization.create({
+            specialization,
+            description
+        })
+
+        if(result) {
+            res.send({ok: "Added Specialization"})
+        }
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 
