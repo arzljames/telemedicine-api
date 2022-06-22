@@ -4,7 +4,7 @@ const Specialization = require("../Models/Specialization")
 
 
 
-router.get("/add", async(req, res) => {
+router.post("/add", async(req, res) => {
     const specialization = req.body.specialization;
     const description = req.body.description;
 
