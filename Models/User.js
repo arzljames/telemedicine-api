@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Specialization = require("./Specialization");
-const Facilities = require("./Facilities");
 
 const UserSchema = new mongoose.Schema(
   {
@@ -47,8 +46,8 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     designation: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: Facilities,
+      type: String,
+      required: true,
     },
 
     specialization: {
