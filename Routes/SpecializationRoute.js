@@ -31,4 +31,26 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.put("/edit/:id", async (req, res) => {
+  const id = req.params.id;
+  const specialization = req.body.specialization;
+  const description = req.body.description;
+
+  try {
+    let result = await Specialization.findByIdAndUpdate(
+      { _id: id },
+      {
+        specialization,
+        description,
+      }
+    );
+
+    if (result) {
+      res.send({ ok: "Updated Specialization" });
+    }
+  } catch (error) {
+    res.send({ err: error.message });
+  }
+});
+
 module.exports = router;
