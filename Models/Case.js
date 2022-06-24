@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const User = require("../Models/User");
 const Patient = require("../Models/Patient");
 const Facilities = require("./Facilities");
-const Specialization = require("./Specialization");
 
 const CaseSchema = new mongoose.Schema({
   caseId: {
@@ -36,8 +35,8 @@ const CaseSchema = new mongoose.Schema({
   },
 
   specialization: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Specialization,
+    type: Array,
+    default: [],
   },
   temperature: {
     type: String,

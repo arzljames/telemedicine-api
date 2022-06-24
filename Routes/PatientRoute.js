@@ -233,7 +233,6 @@ router.get("/case", async (req, res) => {
       .populate("designation")
       .populate("physician")
       .populate("patient")
-      .populate("specialization");
     if (result) {
       res.send(result);
     }
