@@ -53,4 +53,16 @@ router.put("/edit/:id", async (req, res) => {
   }
 });
 
+router.get("/", async (req, res) => {
+  try {
+    let result = await Specialization.find({});
+
+    if (result) {
+      res.send(result);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;
