@@ -4,7 +4,7 @@ const brcypt = require("bcrypt");
 const saltRounds = 10;
 
 router.get("/users", async (req, res) => {
-  let users = await User.find({}).populate("specialization");
+  let users = await User.find({}).populate("specialization").populate("designation");
 
   if (!users) {
     res.send({ err: "No users" });
