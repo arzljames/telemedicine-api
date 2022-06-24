@@ -101,8 +101,8 @@ router.post("/login", async (req, res) => {
             firstname: user.firstname,
             lastname: user.lastname,
             email: user.email,
-            designation: user.designation.facility,
-            specialization: user.specialization.specialization,
+            designation: user.designation,
+            specialization: user.specialization,
             picture: user.picture,
           };
           const accessToken = jwt.sign(
