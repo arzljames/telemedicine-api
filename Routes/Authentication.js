@@ -52,7 +52,7 @@ router.post("/register", async (req, res) => {
         if (err) {
           err.message.includes("email")
             ? res.send({ emailErr: "Email is already in use" })
-            : res.send({ usernameErr: "Username is already in use" });
+            : res.send({ usernameErr: err });
         } else {
           Facilities.findOneAndUpdate(
             { facility: designation },
