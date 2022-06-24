@@ -40,7 +40,8 @@ router.post("/register", async (req, res) => {
         firstname,
         lastname,
         fullname: firstname + " " + lastname,
-        specialization,
+        specialization:
+          designation === "623ec7fb80a6838424edaa29" ? specialization : null,
         designation,
         email,
         username,
@@ -52,7 +53,7 @@ router.post("/register", async (req, res) => {
         if (err) {
           err.message.includes("email")
             ? res.send({ emailErr: "Email is already in use" })
-            : res.send({ usernameErr: err });
+            : res.send({ usernameErr: "Username is already in use" });
         } else {
           Facilities.findOneAndUpdate(
             { facility: designation },
