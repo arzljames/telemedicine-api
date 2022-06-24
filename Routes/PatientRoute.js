@@ -232,7 +232,8 @@ router.get("/case", async (req, res) => {
     let result = await Case.find({})
       .populate("designation")
       .populate("physician")
-      .populate("patient");
+      .populate("patient")
+      .populate("specialization");
     if (result) {
       res.send(result);
     }
