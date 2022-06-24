@@ -87,7 +87,7 @@ router.get("/get-spec", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    let result = await Facilities.find({}).populate("user");
+    let result = await Facilities.find({});
 
     if (result) {
       res.send(result);
