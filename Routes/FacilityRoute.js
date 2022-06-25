@@ -36,6 +36,8 @@ router.put("/update/:id", async (req, res) => {
     },
   };
 
+
+
   try {
     let result = await Facilities.findByIdAndUpdate(
       { _id: id },
