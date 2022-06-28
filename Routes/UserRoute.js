@@ -4,7 +4,9 @@ const brcypt = require("bcrypt");
 const saltRounds = 10;
 
 router.get("/users", async (req, res) => {
-  let users = await User.find({}).populate("specialization").populate("designation");
+  let users = await User.find({})
+    .populate("specialization")
+    .populate("designation");
 
   if (!users) {
     res.send({ err: "No users" });
@@ -111,6 +113,34 @@ router.put("/change-password/:id", async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+  }
+});
+
+router.put("/update/:id", async (req, res) => {
+  const id = req.params.id;
+  const firstname = req.body.firstname;
+  const middlename = req.body.middlename;
+  const lastname = req.body.lastname;
+  const designation = req.body.designation;
+  const specialization = req.body.specialization;
+
+  try {
+    let result = await User.findByIdAndUpdate(
+      { _id: id },
+      {
+        firstname,
+        middlename,
+        lastname,
+        designation,
+        specialization,
+      }
+    );
+
+    if (result) {
+      res.send({ ok: "Updated user" });
+    }
+  } catch (error) {
+    res.send({ err: "An error occured with status 404" });
   }
 });
 
