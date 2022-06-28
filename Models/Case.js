@@ -34,7 +34,9 @@ const CaseSchema = new mongoose.Schema({
     ref: User,
   },
 
-  specialization: {
+  specialization: String,
+
+  subSpecialization: {
     type: Array,
     default: [],
   },
