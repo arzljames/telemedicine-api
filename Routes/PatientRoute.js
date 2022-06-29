@@ -233,6 +233,7 @@ router.get("/case", async (req, res) => {
       .populate("designation")
       .populate("physician")
       .populate("patient")
+      .populate("subSpecialization")
     if (result) {
       res.send(result);
     }
@@ -251,7 +252,9 @@ router.put("/case/update/:id", async (req, res) => {
     if (result) {
       res.send({ ok: "sd" });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error)
+  }
 });
 
 router.put("/response/:id", async (req, res) => {
