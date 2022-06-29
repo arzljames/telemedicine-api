@@ -44,6 +44,11 @@ const CaseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  caseInfo: {
+    type: Array,
+    default: []
+  },
   respiratory: String,
   heart: String,
   blood: String,
