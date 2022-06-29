@@ -244,9 +244,9 @@ router.get("/case", async (req, res) => {
 
 router.put("/case/update/:id", async (req, res) => {
   const id = req.params.id;
-  const specialization = req.body.specialization;
+  const subSpecialization = req.body.specialization;
   try {
-    let result = await Case.findByIdAndUpdate({ _id: id }, { specialization });
+    let result = await Case.findByIdAndUpdate({ _id: id }, { subSpecialization });
 
     if (result) {
       res.send({ ok: "sd" });
