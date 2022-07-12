@@ -255,7 +255,6 @@ router.put("/follow-up/:id", async (req, res) => {
             },
             wi: req.body.wi,
             imd: req.body.imd,
-            createdAt: !req.body.todate ? Date.now : req.body.todate,
           },
         },
       }
