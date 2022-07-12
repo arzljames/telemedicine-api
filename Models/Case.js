@@ -78,7 +78,7 @@ const CaseSchema = new mongoose.Schema({
       paraclinical: { name: String, file: String },
       wi: String,
       imd: String,
-      createAt: {
+      createdAt: {
         type: Date,
         default: Date.now,
       },
