@@ -202,7 +202,7 @@ router.put("/add-case/:id", async (req, res) => {
       wi: req.body.wi,
       imd: req.body.imd,
       reason: req.body.reason,
-      createdAt: req.body.todate
+      createdAt: req.body.todate,
     });
 
     if (result) {
@@ -255,6 +255,7 @@ router.put("/follow-up/:id", async (req, res) => {
             },
             wi: req.body.wi,
             imd: req.body.imd,
+            createdAt: req.body.todate,
           },
         },
       }
