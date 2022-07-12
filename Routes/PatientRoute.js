@@ -202,6 +202,7 @@ router.put("/add-case/:id", async (req, res) => {
       wi: req.body.wi,
       imd: req.body.imd,
       reason: req.body.reason,
+      createdAt: req.body.todate
     });
 
     if (result) {
