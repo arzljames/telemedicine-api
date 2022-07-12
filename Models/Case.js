@@ -60,6 +60,27 @@ const CaseSchema = new mongoose.Schema({
   wi: String,
   imd: String,
   reason: String,
+
+  followUp: [
+    {
+      temperature: String,
+
+      respiratory: String,
+      heart: String,
+      blood: String,
+      oxygen: String,
+      weight: String,
+      height: String,
+      cc: String,
+      hpi: String,
+      pmh: String,
+      ros: String,
+      pe: String,
+      paraclinical: { name: String, file: String },
+      wi: String,
+      imd: String,
+    },
+  ],
 });
 
 const Case = mongoose.model("Case", CaseSchema, "case");
