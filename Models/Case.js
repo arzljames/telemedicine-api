@@ -64,7 +64,6 @@ const CaseSchema = new mongoose.Schema({
   followUp: [
     {
       temperature: String,
-
       respiratory: String,
       heart: String,
       blood: String,

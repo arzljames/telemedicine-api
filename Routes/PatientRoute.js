@@ -227,13 +227,56 @@ router.put("/add-case/:id", async (req, res) => {
   }
 });
 
+router.put("/follow-up/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await Case.findByIdAndUpdate(
+      { _id: id },
+      {
+        $push: {
+          followUp: {
+            temperature: req.body.temperature,
+            respiratory: req.body.respiratory,
+            heart: req.body.heart,
+            blood: req.body.blood,
+            oxygen: req.body.oxygen,
+            weight: req.body.weight,
+            height: req.body.height,
+            cc: req.body.cc,
+            hpi: req.body.hpi,
+            pmh: req.body.pmh,
+            ros: req.body.ros,
+            pe: req.body.pe,
+            paraclinical: {
+              name: req.body.paraclinicalName,
+              file: req.body.paraclinicalFile,
+            },
+            wi: req.body.wi,
+            imd: req.body.imd,
+          },
+        },
+      }
+    );
+
+    if (result) {
+      res.send({ ok: result });
+    }
+  } catch (error) {
+    console.log(error);
+    res.send({
+      err: "A problem occured. Please check any empty field/s and try again.",
+    });
+  }
+});
+
 router.get("/case", async (req, res) => {
   try {
     let result = await Case.find({})
       .populate("designation")
       .populate("physician")
       .populate("patient")
-      .populate("subSpecialization")
+      .populate("subSpecialization");
     if (result) {
       res.send(result);
     }
@@ -247,13 +290,16 @@ router.put("/case/update/:id", async (req, res) => {
   const id = req.params.id;
   const subSpecialization = req.body.specialization;
   try {
-    let result = await Case.findByIdAndUpdate({ _id: id }, { subSpecialization });
+    let result = await Case.findByIdAndUpdate(
+      { _id: id },
+      { subSpecialization }
+    );
 
     if (result) {
       res.send({ ok: "sd" });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 });
 
