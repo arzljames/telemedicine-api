@@ -5,12 +5,12 @@ const mongoose = require("mongoose");
 router.post("/add", async (req, res) => {
   const facilities = {
     facility: req.body.name,
-    specialization: req.body.specializations,
     address: {
       street: req.body.street,
       city: req.body.city,
       barangay: req.body.barangay,
     },
+    picture: req.body.picture
   };
 
   try {
