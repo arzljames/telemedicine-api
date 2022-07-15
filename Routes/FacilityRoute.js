@@ -26,16 +26,6 @@ router.post("/add", async (req, res) => {
 
 router.put("/update/:id", async (req, res) => {
   const id = req.params.id;
-  const facilities = {
-    facility: req.body.name,
-    specialization: req.body.specializations,
-    address: {
-      street: req.body.street,
-      city: req.body.city,
-      barangay: req.body.barangay,
-    },
-  };
-
 
 
   try {
@@ -48,6 +38,7 @@ router.put("/update/:id", async (req, res) => {
           city: req.body.city,
           barangay: req.body.barangay,
         },
+        picture: req.body.picture
       }
     );
 
