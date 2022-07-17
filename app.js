@@ -16,7 +16,7 @@ const Message = require("./Models/Message");
 const Notification = require("./Models/Notification");
 const User = require("./Models/User");
 const Chat = require("./Models/Chat");
-const path = require("path");
+const Case = require("./Models/Case");
 
 //Importing Routes
 const authRoute = require("./Routes/Authentication");
@@ -186,6 +186,15 @@ io.on("connection", (socket) => {
         });
     });
   });
+
+  socket.on("case", () => {
+    Case.find({}).populate("designation")
+    .populate("physician")
+    .populate("patient")
+    .populate("subSpecialization").then((result) => {
+      io.emit("get_case", result);
+    });
+  })
 
   socket.on("notif", () => {
     Notification.find({})
