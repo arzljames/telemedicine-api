@@ -26,7 +26,7 @@ const CaseSchema = new mongoose.Schema({
     default: Date.now,
   },
   active: {
-    type: Boolean,
+    type: String,
     default: true,
   },
 

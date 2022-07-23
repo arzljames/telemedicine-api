@@ -181,6 +181,7 @@ router.put("/add-case/:id", async (req, res) => {
       designation: "623ec7fb80a6838424edaa29",
       patient: patientId,
       caseId: req.body.caseId,
+      active: "Pending",
       physician: req.body.physician,
       specialization: req.body.specialization,
       temperature: req.body.temperature,
