@@ -92,8 +92,12 @@ router.post("/register-navi", async (req, res) => {
       };
 
       User.create(user, (err, result) => {
-        if (result) {
-          res.send({ ok: "Registered" });
+        if (err) {
+          err.message.includes("email")
+            ? res.send({ emailErr: "Email is already in use" })
+            : res.send({ usernameErr: "Username is already in use" });
+        } else {
+          res.send({ ok: result });
         }
       });
     }
