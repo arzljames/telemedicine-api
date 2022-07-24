@@ -387,7 +387,7 @@ router.put("/case/deactivate/:id", async (req, res) => {
     let result = await Case.findByIdAndUpdate(
       { _id: req.params.id },
       {
-        active: false,
+        active: "Done",
       }
     );
 
@@ -404,7 +404,7 @@ router.put("/case/activate/:id", async (req, res) => {
     let result = await Case.findByIdAndUpdate(
       { _id: req.params.id },
       {
-        active: true,
+        active: "Active",
       }
     );
 
