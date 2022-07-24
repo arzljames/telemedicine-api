@@ -229,6 +229,23 @@ router.put("/add-case/:id", async (req, res) => {
   }
 });
 
+router.put("/case-status", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const result = await Case.findByIdAndUpdate(
+      { _id: id },
+      { active: "Active" }
+    );
+
+    if (result) {
+      res.send({ ok: result });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.put("/follow-up/:id", async (req, res) => {
   const id = req.params.id;
 
