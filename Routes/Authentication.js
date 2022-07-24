@@ -72,7 +72,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/register-navi", async (req, res) => {
+router.post("/navigator", async (req, res) => {
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const username = req.body.username;
