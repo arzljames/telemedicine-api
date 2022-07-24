@@ -89,6 +89,7 @@ router.post("/navigator", async (req, res) => {
         password: hash,
         verified: true,
         userType: "navigator",
+        email: username,
       };
 
       User.create(user, (err, result) => {
