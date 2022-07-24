@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema(
     email: {
       type: String,
       unique: true,
-      required: true,
+      required: false,
     },
     designation: {
       type: mongoose.Schema.Types.ObjectId,

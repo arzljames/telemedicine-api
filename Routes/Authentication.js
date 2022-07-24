@@ -72,11 +72,41 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.post("/register-navi", async (req, res) => {
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const username = req.body.username;
+  const password = req.body.password;
+
+  try {
+    const hash = await brcypt.hash(password, saltRounds);
+
+    if (hash) {
+      const user = {
+        firstname,
+        lastname,
+        username,
+        password: hash,
+        verified: true,
+        userType: "navigator",
+      };
+
+      User.create(user, (err, result) => {
+        if (result) {
+          res.send({ ok: "Registered" });
+        }
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 router.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  const user = await User.findOne({ username });
+  const hash = await User.findOne({ username });
 
   try {
     if (!user) {
