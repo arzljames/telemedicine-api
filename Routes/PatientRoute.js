@@ -229,7 +229,7 @@ router.put("/add-case/:id", async (req, res) => {
   }
 });
 
-router.put("/case-status", async (req, res) => {
+router.put("/case-status/:id", async (req, res) => {
   const id = req.params.id;
 
   try {
