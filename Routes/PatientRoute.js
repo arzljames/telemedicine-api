@@ -31,6 +31,7 @@ router.post("/add/:id", async (req, res) => {
       city: req.body.city,
     },
     ethnicity: req.body.ethnicity,
+    dialect: req.body.dialect,
     guardian: {
       name: req.body.fullname,
       relationship: req.body.relationship,

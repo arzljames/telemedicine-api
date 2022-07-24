@@ -60,6 +60,11 @@ const PatientSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    dialect: {
+      type: String,
+      required: true,
+    },
     guardian: {
       name: {
         type: String,
