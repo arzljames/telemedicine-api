@@ -109,7 +109,7 @@ router.post("/login", async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  const hash = await User.findOne({ username });
+  const user = await User.findOne({ username });
 
   try {
     if (!user) {
