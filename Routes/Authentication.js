@@ -93,9 +93,7 @@ router.post("/navigator", async (req, res) => {
 
       User.create(user, (err, result) => {
         if (err) {
-          err.message.includes("email")
-            ? res.send({ emailErr: "Email is already in use" })
-            : res.send({ usernameErr: "Username is already in use" });
+          res.send({ err: err });
         } else {
           res.send({ ok: result });
         }
