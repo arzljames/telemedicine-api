@@ -64,6 +64,7 @@ const PatientSchema = new mongoose.Schema(
     dialect: {
       type: String,
       required: true,
+      default: "Not specified"
     },
     guardian: {
       name: {
