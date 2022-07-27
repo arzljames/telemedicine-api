@@ -273,7 +273,7 @@ router.get("/recover/:email", async (req, res) => {
   }
 });
 
-router.all.post("/message", async (req, res) => {
+router.post("/message", async (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
   const message = req.body.message;
