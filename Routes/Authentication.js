@@ -3,6 +3,7 @@ const User = require("../Models/User");
 const Facilities = require("../Models/Facilities");
 const nodemailer = require("nodemailer");
 const randomstring = require("randomstring");
+const Contact = require("../Models/Contact");
 
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -266,6 +267,28 @@ router.get("/recover/:email", async (req, res) => {
       res.send({
         err: "Email is not associated with any ZCMC Telemedicine account",
       });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.all.post("/message", async (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.message;
+
+  const contact = {
+    name,
+    email,
+    message,
+  };
+
+  try {
+    const result = await Contact.create(contact);
+
+    if (result) {
+      res.send({ ok: "Message sent!" });
     }
   } catch (error) {
     console.log(error);

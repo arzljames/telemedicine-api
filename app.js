@@ -49,6 +49,7 @@ app.use(
       "https://zcmc.vercel.app",
       "http://localhost:3000",
       "https://zcmc.netlify.app",
+      "https://arzljames.vercel.app"
     ],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
     credentials: true,
@@ -112,6 +113,7 @@ const io = new Server(server, {
       "https://zcmc.vercel.app",
       "http://localhost:3000",
       "https://zcmc.netlify.app",
+      "https://arzljames.vercel.app"
     ],
     methods: ["PUT", "DELETE", "GET", "POST", "*"],
   },
