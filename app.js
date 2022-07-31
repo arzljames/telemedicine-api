@@ -155,7 +155,7 @@ io.on("connection", (socket) => {
 
   socket.on("receive_response", () => {
     Message.find({}).then((result) => {
-      io.emit("get_chat", result);
+      io.emit("receive_response", result);
     });
   });
 
