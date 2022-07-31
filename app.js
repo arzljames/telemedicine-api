@@ -152,6 +152,13 @@ io.on("connection", (socket) => {
     });
   });
 
+
+  socket.on("receive_response", () => {
+    Message.find({}).then((result) => {
+      io.emit("get_chat", result);
+    });
+  });
+
   socket.on("send_response", async (data) => {
     Message.create({
       user: data.user,
