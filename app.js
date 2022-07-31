@@ -153,12 +153,6 @@ io.on("connection", (socket) => {
   });
 
 
-  socket.on("receive_response", () => {
-    Message.find({}).then((result) => {
-      io.emit("receive_response", result);
-    });
-  });
-
   socket.on("send_response", async (data) => {
     Message.create({
       user: data.user,
