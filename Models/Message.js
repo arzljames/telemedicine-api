@@ -19,12 +19,15 @@ const MessageSchema = new mongoose.Schema(
       ref: User,
     },
 
-    attachment: 
-      {
-        file: String,
-        name: String,
-      },
-    
+    attachment: {
+      file: String,
+      name: String,
+    },
+
+    open: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );
