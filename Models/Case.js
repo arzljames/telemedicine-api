@@ -56,6 +56,10 @@ const CaseSchema = new mongoose.Schema({
   pmh: String,
   ros: String,
   pe: String,
+  attachments: {
+    type: Array,
+    default: []
+  },
   paraclinical: { name: String, file: String },
   wi: String,
   imd: String,
@@ -75,10 +79,6 @@ const CaseSchema = new mongoose.Schema({
       pmh: String,
       ros: String,
       pe: String,
-      attachments: {
-        type: Array,
-        default: []
-      },
       paraclinical: { name: String, file: String },
       wi: String,
       imd: String,
