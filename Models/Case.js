@@ -75,7 +75,10 @@ const CaseSchema = new mongoose.Schema({
       pmh: String,
       ros: String,
       pe: String,
-      attachments: Array,
+      attachments: {
+        type: Array,
+        default: []
+      },
       paraclinical: { name: String, file: String },
       wi: String,
       imd: String,
